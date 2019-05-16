@@ -177,6 +177,7 @@ print([n for n in myyield(100)])
 # print(a)
 
 #进制转换
+'''
 print(bin(8))
 print(oct(8))
 print(hex(8))
@@ -185,6 +186,14 @@ a = {'%s is square'%i:i**2 for i in range(11)}
 b = a.keys()
 print(a)
 print(b)
+'''
+
+
+fcount = '3'
+money = '50'
+fmoney = int(fcount)*int(money)
+print(type(fmoney))
+print(fmoney)
 
 
 

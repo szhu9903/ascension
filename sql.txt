@@ -1,0 +1,33 @@
+选择 ：select * from table where 范围
+
+插入 ：insert into table(field1,field2) value(value1,value2)
+
+删除 ：delete from table where 范围
+
+更新 ：update table set field1=value1 where 范围
+
+查找 ：select * from table where field1 like '%value1%'
+
+排序 ：select * from table order by field1,field2 [desc]（DESC表示倒序）
+
+分页 ：select name from table order by id desc limit 3 offset 0 (倒序，结果集分页，取三条数据，从0开始索引) 
+LIMIT总是设定为pageSize；
+OFFSET计算公式为pageSize * (pageIndex - 1)。
+
+总数 ：select count as totalcount from table1
+
+求和：select sum(field1) as sumvalue from table1
+
+平均：select avg(field1) as avgvalue from table1
+
+最大：select max(field1) as maxvalue from table1
+
+最小：select min(field1) as minvalue from table1
+
+
+时间格式 ：to_char(t1.create_date AT TIME ZONE 'Etc/GMT+8','YYYY-MM-DD HH:MM:SS') as create_date
+
+多表查询 ：from oz_th_repair t1 left join oz_th_dict t2 on t2.flabel = t1.frepair_type
+left join(左联接) 返回包括左表中的所有记录和右表中联结字段相等的记录 
+right join(右联接) 返回包括右表中的所有记录和左表中联结字段相等的记录
+inner join(等值连接) 只返回两个表中联结字段相等的行
