@@ -32,9 +32,16 @@ a = np.array([[11, 12, 13, 14, 15],
 print(a[3,4])
 print(a[::2,::2])
 
+# 根据列表中间的数字进行分割列表，循环查询
+def quick(arr):
+	if len(arr) <=1:
+		return arr
+	privot = arr[len(arr)//2]
+	left = [x for x in arr if x<privot]
+	middle = [x for x in arr if x==privot]
+	reght = [x for x in arr if x>privot]
+	return quick(left) + middle + quick(reght)
 
-ffood_list = [{"name":"豪华","number":"1","id":"1"},{"name":"豪华","number":"1","id":"2"}]
+print(quick([1,5,6,7,9,165,6,454,5,14]))
 
-for i in range(len(ffood_list)):
-    for value in i.itervalues():
-        print('value')
+
