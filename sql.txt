@@ -8,7 +8,9 @@
 
 查找 ：select * from table where field1 like '%value1%'
 
-排序 ：select * from table order by field1,field2 [desc]（DESC表示倒序）
+排序 ：select * from table order by field1,field2 [desc]
+asc 按升序排列
+desc 按降序排列
 
 分页 ：select name from table order by id desc limit 3 offset 0 (倒序，结果集分页，取三条数据，从0开始索引) 
 LIMIT总是设定为pageSize；
@@ -31,3 +33,10 @@ OFFSET计算公式为pageSize * (pageIndex - 1)。
 left join(左联接) 返回包括左表中的所有记录和右表中联结字段相等的记录 
 right join(右联接) 返回包括右表中的所有记录和左表中联结字段相等的记录
 inner join(等值连接) 只返回两个表中联结字段相等的行
+
+分组 ：GROUP BY 语句用于结合聚合函数，根据一个或多个列对结果集进行分组。
+
+
+
+
+

@@ -1,6 +1,15 @@
 from flask import Flask,request,Response,make_response
 # from flask_sqlalchemy import SQLAlchemy
 
+
+#SQL抽象层：如果只需要数据库系统和SQL抽象层，只需要引擎部分
+from sqlalchemy import create_engine,MetaData
+engine = create_engine('数据库连接')
+metadata = MetaData(bind=engine)
+
+
+
+
 app = Flask(__name__)
 # app.config['SECRET_KEY'] = 'zhu'
 # app.config['SQLALCHEMY_DATABASE_URL'] = 'mysql://root:1017@localhost:3306/mysite_db'
