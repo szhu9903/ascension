@@ -189,17 +189,17 @@ print(b)
 '''
 
 
-fcount = '3'
-money = '50'
-fmoney = int(fcount)*int(money)
-print(type(fmoney))
-print(fmoney)
+# fcount = '3'
+# money = '50'
+# fmoney = int(fcount)*int(money)
+# print(type(fmoney))
+# print(fmoney)
 
 
+import datetime
 
-
-
-
+time = datetime.datetime.now()
+print(time)
 
 
 
