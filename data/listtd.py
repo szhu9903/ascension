@@ -68,7 +68,7 @@ print(new_list)
 '''
 
 #写一个单列模式
-
+'''
 class Singleton(object):
 	__instance = None
 	def __new__(cls,name,age):
@@ -86,7 +86,14 @@ print(id(b))
 
 b.age = 99
 print(a.age)
+'''
 
+#判断列表重复元素
+str = [1,2,2,3,4,5,5,6,9,8]
+if len(str) == len(set(str)):
+	print("无重复元素")
+else:
+	print("存在元素重复")
 
 
 
