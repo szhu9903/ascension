@@ -87,6 +87,100 @@ inner join(等值连接) 只返回两个表中联结字段相等的行
 
 
 
+-- distinct 显示记录不重复
+SELECT DISTINCT
+	ffood_name 
+FROM
+	oz_th_food
+	
+	
+-- 处理null，默认'0':
+COALESCE(fdish_greens,'0') as fish_greens
+
+
+-- 当查询到空值默认设置为‘0’
+SELECT
+	ffood_num,
+	ffood_name,
+CASE  WHEN fdish_meat2 = '' THEN '0' 
+ELSE fdish_meat
+	END
+
+FROM
+	oz_th_food
+	
+	
+	
+	-- having对分组查询数据使用聚合函数筛选
+	
+SELECT
+	ffood_time_type,
+	avg( fprice ) 
+FROM
+	oz_th_food 
+GROUP BY
+	ffood_time_type 
+HAVING
+	avg( fprice ) <3
+
+
+
+-- string对分组的某个字段所有值显示，例如，一个房间所有的职工
+
+SELECT
+	l.ffloor_num,
+	r.froom_num,
+	string_agg ( r.fcheck_in_person_name,',' ) as check_name
+FROM
+	oz_th_check_in_record AS r
+	LEFT JOIN oz_th_room AS l ON r.froom_num = l.froom_num 
+WHERE
+	r.fdel_flag = '0' 
+GROUP BY
+	l.ffloor_num,r.froom_num 
+ORDER BY
+	r.froom_num ASC
+
+
+
+-- 时间转换
+
+SELECT create_date,to_char(create_date,'YYYY-MM-DD') as dates from   oz_th_cost_detail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
