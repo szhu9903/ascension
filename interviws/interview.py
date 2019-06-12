@@ -77,6 +77,7 @@ print(id(list))
 res = sorted(list,key = lambda x:(x<0,abs(x)))#abs()绝对值
 print(id(res),res)
 '''
+
 #74、列表嵌套字典的排序，分别根据年龄和姓名排序
 '''
 foo = [{"name":"zs","age":19},{"name":"ll","age":54},
@@ -87,11 +88,11 @@ print(a)
 a = sorted(foo,key = lambda x:x['name'])
 print(a)
 '''
-# 78、根据键对字典排序（方法二,不用zip)
-# dic = {'name','red','man','good','nice'}
-# a = sorted(dic.items(),key=lambda x:x[0])
-# new_dic = {i[0]:i[1] for i in a}
 
+# 78、根据键对字典排序（方法二,不用zip)
+'''dic = {'name','red','man','good','nice'}
+ a = sorted(dic.items(),key=lambda x:x[0])
+ new_dic = {i[0]:i[1] for i in a}'''
 
 #生成器
 '''
@@ -113,7 +114,6 @@ print(get_num(100))
 '''
 
 #101、求两个列表的交集、差集、并集
-
 '''
 a = [1,2,3,4]
 b = [3,4,5,6]
@@ -126,7 +126,6 @@ print('并集:',list(set(a).union(set(b))))
 print('差集：',list(set(a).difference(set(b))))
 print('差集：',list(set(b).difference(set(a))))
 '''
-
 
 #迭代器，适合遍历比较巨大的集合。__iter__:返回迭代器本身，__next__：返回容器中下一个元素或数据
 '''
@@ -144,38 +143,6 @@ def myyield(n):
 print([n for n in myyield(100)])
 '''
 
-
-
-
-
-
-
-# import copy
-
-# # a = [x for x in range(11)]
-# # b = copy.deepcopy(a)
-# # c = copy.copy(a)
-# # c.insert(0,'Hello')
-# # print('a:%s\nb:%s\nc:%s'%(a,b,c))
-
-# roots = {'%s的平方'%x:x**2 for x in range(11)}
-# print(roots)
-
-
-# with open('max.txt') as max:
-# 	count = 0
-# 	for i in max.read():
-# 		if i.islower():
-# 			count += 1
-# print(count)
-
-
-# from random import shuffle
-
-# a = [x for x in range(11)]
-# shuffle(a)
-# print(a)
-
 #进制转换
 '''
 print(bin(8))
@@ -188,18 +155,145 @@ print(a)
 print(b)
 '''
 
-
-# fcount = '3'
-# money = '50'
-# fmoney = int(fcount)*int(money)
-# print(type(fmoney))
-# print(fmoney)
-
-
+#当前时间
+'''
 import datetime
 
 time = datetime.datetime.now()
 print(time)
+'''
+
+# StringIO
+'''
+from io import StringIO
+output = StringIO()
+print(output.write('python'))#写入
+print(output.seek(0))#将指针定位到起始位置
+print(output.read())#读取写入的内容
+print(output.close())#close
+'''
+
+# BytesIO
+'''
+from io import BytesIO
+output = BytesIO()
+output.write(b'python')
+output.seek(0)
+print(output.read())
+output.close()
+'''
+
+# pandas
+'''
+from pandas import Series,DataFrame
+import pandas as pd
+
+# s = Series([100,'python','numpy','pandas','series','dateframe'],index = [10,'py','np','pd','si','df'])
+data = {"name":['java','c#','python','javascript'],"marks":[200,400,600,800],"price":[9,3,7,10]}
+f = DataFrame(data)
+print(f)
+'''
+
+# Python中的模块--XlsxWriter
+'''
+import xlsxwriter
+
+#创建一个工作簿添加一张工作表
+workbook = xlsxwriter.Workbook('cookbook.xlsx')
+worksheet = workbook.add_worksheet()
+
+#要插入的数据
+expenses = (
+	['python',1000],
+	['java',500],
+	['C++',6000],
+	['Go',500]
+)
+
+#从第一个单元格开始，行和列索引均为0
+row = 0
+col = 0
+
+#迭代数据并逐行写入
+for item,cost in (expenses):
+	worksheet.write(row,col,item)
+	worksheet.write(row,col+1,cost)
+	row +=1
+
+#计算总和
+worksheet.write(row,0,'Total')
+worksheet.write(row,1,'=SUM(B1:B4)')
+
+workbook.close()
+'''
+
+# padas 生成excel 增加sheet表
+'''
+import sys,importlib
+import pandas as pd 
+from openpyxl import load_workbook
+
+importlib.reload(sys)
+
+# pandas dataframe 生成excel表
+def dataFrame2sheet(dataframe,excelwrite):
+    # dataframe转换为excel中的sheet
+	dataframe.to_excel(excel_writer=excelwrite,sheet_name='zhu1',index=None)
+	dataframe.to_excel(excel_writer=excelwrite,sheet_name='zhu2',index=None)
+	dataframe.to_excel(excel_writer=excelwrite,sheet_name='zhu3',index=None)
+	dataframe.to_excel(excel_writer=excelwrite,sheet_name='zhu4',index=None)
+	excelwrite.save()
+	excelwrite.close()
+
+# excel中添加sheet表
+def excelAddSheet(dataframe,excelwrite):
+	book = load_workbook(excelwrite.path)
+	excelwrite.book = book
+	dataframe.to_excel(excel_writer=excelwrite,sheet_name='zhu5',index=None)
+	excelwrite.close()
+
+
+if __name__ == "__main__":
+	# 数据集
+	dateset = [
+		{'姓名':'朱','年龄':22,'性别':'男'},
+		{'姓名':'热','年龄':22,'性别':'男'},
+		{'姓名':'各','年龄':22,'性别':'女'},
+		{'姓名':'宁','年龄':22,'性别':'女'}
+		]
+	
+	#excelPath
+	excelPath = "C:\\Users\Administrator\Desktop\python提升\zhu.xlsx"
+
+	#生成DataFrame
+	dataframe = pd.DataFrame(dateset)
+
+	#创建ExcelWrite 对象
+	excelwrite = pd.ExcelWriter(excelPath,engine = 'openpyxl')
+
+	#生成excel
+	dataFrame2sheet(dataframe,excelwrite)
+
+	# excel中添加sheet
+	excelAddSheet(dataframe,excelwrite)
+'''
+
+# 读取数据
+import pandas as pd
+
+# 读取前n行所有数据
+excelpath = "F:\测试模板\费用模板"
+df = pd.read_excel('%s\住宿费.xlsx'%excelpath)
+data1 = df.head(7)#读取前七行所有数据
+data2 = df.values #list形式读取表中所有数据
+print('{0}\n'.format(data1))
+print('{0}\n'.format(data2))
+
+# 读取特定行、特定列
+data3 = df.ix[0].values #读取第一行的所有数据
+data4 = df.ix[1,2] #读取指定位置数据
+data5 = df.ix[[1,2]].values #读取指定多行
+
 
 
 
