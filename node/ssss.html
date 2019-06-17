@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>zhu</title>
+</head>
+<body onLoad="checkCookie()">
+</body>
+
+<script type="text/javascript">
+    //检查是否已设置cookie的函数
+    function getCookie(c_name)
+    {
+        if(document.cookie.length>0)  //cookie是否存在
+        {
+            c_start=document.cookie.indexOf(c_name+"=");
+            //若cookie存在，检查我们想要的cookie名是否存储在cookie内
+            if(c_name!=-1){//若我们想要的cookie名存储在cookie内
+                c_start+=c_name.length+1;//cookie值的初始位置,1是=的长度
+                c_end=document.cookie.indexOf(";",c_start);//值的结束为止
+                if(c_end==-1)c_end=document.cookie.length;
+                //若不存在；即没有到期日期，那么cookie值长度就是结束位置到初始位置的长度
+                return unescape(document.cookie.substring(c_start,c_end));//获取这一段字符串解码
+        }
+    }
+    
+    //创建一个可在cookie变量中存储访问者姓名的函数
+    function setCookie(c_name,value,enpiredays) 
+    {
+        var exdate=new Date();
+        exdate.setDate(exdate.getDate()+enpiredays); //将到期天数转化为到期日期
+        document.cookie=c_name+"="+escape(value)+
+        ((enpiredays==null)?"":";expires="+exdate.toGMTString());
+    }
+    /* 将名字，值，到期时间存储到cookie内
+       1.实际上是c_name=value 但是为了防止值存在URL里不允许出现的字符，所以用escape（）方法，即将String进行编码
+       2.第二行是三目运算（条件）？真值：假值 后面的；是与前面做拼接
+       3.toGMTString（）转化为格林尼治的世界格式
+     */
+    
+    //若cookie已设置显示欢迎词，若没有显示提示框
+    function checkCookie() 
+    {
+        username=getCookie('username');
+        if(username!=null&&username!="")
+            alert("welcome again"+username);
+        else
+        {
+            username=prompt("please enter your name","");
+            if(username!=null&&username!="")
+                setCookie('username',username,365);
+        }
+    }
+    </script>
+</html>
+
+
+
+
+

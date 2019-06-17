@@ -42,7 +42,7 @@ def quick(arr):
 	reght = [x for x in arr if x>privot]
 	return quick(left) + middle + quick(reght)
 print(quick([1,5,6,7,9,165,6,454,5,14]))
-'''
+
 
 #矩阵运算（add,subtract,multiply,divide）
 x = np.array([[1,2],[3,4]],dtype = np.float64)
@@ -52,6 +52,15 @@ y = np.array([[5,6],[7,8]],dtype = np.float64)
 
 #要转置一个矩阵，只需使用一个数组对象的T属性
 print(x.T)
+'''
+
+import pandas as pd
+import numpy as np
+
+dates = pd.date_range('20190101',periods=7)
+df = pd.DataFrame(np.random.randn(7,4),index=dates,columns=list('ABCD'))
+# 快速统计
+print(df.describe())
 
 
 

@@ -279,6 +279,7 @@ if __name__ == "__main__":
 '''
 
 # 读取数据
+"""
 import pandas as pd
 
 # 读取前n行所有数据
@@ -293,6 +294,83 @@ print('{0}\n'.format(data2))
 data3 = df.ix[0].values #读取第一行的所有数据
 data4 = df.ix[1,2] #读取指定位置数据
 data5 = df.ix[[1,2]].values #读取指定多行
+data6 = df.ix[:,[0]].values #指定列的的所有行
+data7 = df.ix[:,[u'房间',u'备注']].values  #指定列的的所有行
+print('{0}\n'.format(data3))
+print('{0}\n'.format(data4))
+print('{0}\n'.format(data5))
+print('{0}\n'.format(data6))
+print('{0}\n'.format(data7))
+
+# 获取xlsx文件行号，所有列名称
+print('输出行号列表%s'%df.index.values)
+print('输出列标题%s'%df.columns.values)
+
+#读取xlsx数据转换为字典
+test_data = []
+for i in df.index.values:
+	#用i来获取每一行指定的数据，利用to_dict转为字典
+	row_data = df.ix[i,['序号','房间','开始日期','结束日期','备注']].to_dict()
+	test_data.append(row_data)
+print('最终取到的数据是：%s'%test_data)
+"""
+
+# 写入xslx文件
+"""
+import xlsxwriter
+# 创建工作簿
+file_name = "小朱.xlsx"
+workbook = xlsxwriter.Workbook(file_name)
+#创建工作表
+worksheet = workbook.add_worksheet('sheet1')
+#写入单元格
+worksheet.write(0,0,'序号')
+worksheet.write(0,1,'姓名')
+worksheet.write(0,2,'年龄')
+#行
+worksheet.write_row(1,0,[1,'朱帅杰',22])
+#列
+worksheet.write_column('A3',[i for i in range(11) if i>1])
+#关闭工作簿
+workbook.close()
+"""
+
+# xpython中enumerate()函数的用法
+"""
+import json
+def e_format(e_key,e_value):
+    rs = []
+    for v in e_value:
+        dic = {}
+        for index,values in enumerate(e_key):
+            dic[values] = v[index]
+        rs.append(dic)
+    return rs
+
+if __name__ == '__main__':
+    e_key = ['id','name','age']
+    e_value = [(2,'朱',22),(3,'朱',22),(4,'朱',22)]
+    rs = e_format(e_key,e_value)
+    print(json.dumps(rs))
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
