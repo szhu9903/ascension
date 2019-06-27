@@ -54,13 +54,107 @@ y = np.array([[5,6],[7,8]],dtype = np.float64)
 print(x.T)
 '''
 
+
+# 快速统计
+'''
 import pandas as pd
 import numpy as np
-
 dates = pd.date_range('20190101',periods=7)
 df = pd.DataFrame(np.random.randn(7,4),index=dates,columns=list('ABCD'))
 # 快速统计
 print(df.describe())
+'''
+
+
+# pandas 系列(Series)
+'''
+import pandas as pd
+import numpy as np
+
+# 创建空系列
+s = pd.Series()
+
+# 从ndarray创建一个系列
+data = np.array(['A','B','C','D','E'])
+s = pd.Series(data,index=[100,99,98,97,96])
+
+# 从字典创建一个系列
+data = {'A':1.,'B':2.,'C':3.}
+s = pd.Series(data,index=['A','D','B','C'])
+
+# 从具体位置的系列访问数据
+s = pd.Series([1,2,3,4,5,6],index = ['A','B','C','D','E','F'])
+print(s[3:])
+'''
+
+
+# pandas 数据帧(DataFrame),二维数组
+'''
+import pandas as pd
+
+# 创建空的DataFrame
+df = pd.DataFrame()
+
+# 从列表创建DataFrame
+data = [['z',12],['h',30],['u',22]]
+df = pd.DataFrame(data,columns = ['name','age'],dtype = float)
+
+# 从ndarrays/Lists的字典来创建DataFrame
+data = {"Name":['zhu','re','huang','yao','zhang'],'age':[22,23,21,25,26]}
+df = pd.DataFrame(data)
+
+# 列添加
+d = {'one':pd.Series([1,2,3],index = ['A','B','C']),'tow':pd.Series([1,2,3,4],index = ['A','B','C','D'])}
+df = pd.DataFrame(d)
+df['three'] = pd.Series([10,20,30],index = ['A','B','C'])
+df['four'] = df['one'] + df['three']
+print(df)
+'''
+
+
+# pandas 面板(Panel),三维数组
+'''
+import numpy as np
+import pandas as pd
+
+# 从3D ndarray创建
+data = np.random.rand(2,4,5)
+p = pd.Panel(data)
+
+# 从DataFrame的dict对象创建面板
+data = {'Item1':pd.DataFrame(np.random.randn(4,3)),
+        'Item2':pd.DataFrame(np.random.randn(4,2))}
+p = pd.Panel(data)
+'''
+
+# pandas 基础功能
+import pandas as pd
+import numpy as np
+
+data = {
+    'Name': pd.Series(['zhu','shuai','jie','rere','wei','da','zhang','huang']),
+    'Age' : pd.Series([22,32,15,15,64,64,64,62]),
+    'Rating': pd.Series(['A','B','A','C','A','A','C','B'])
+        }
+print(pd.DataFrame(data).T)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -357,7 +357,9 @@ if __name__ == '__main__':
 
 
 
-
+rows = '78/s/大苏打'
+a = rows.split('/')
+print(a)
 
 
 
