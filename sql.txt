@@ -156,6 +156,337 @@ select top 40 id from person order by id
 ) order by id
 
 -- sql 存储过程
+USE [hxrpt]
+GO
+/****** Object:  StoredProcedure [dbo].[hx_proc_经营费用明细表]    Script Date: 2019/7/23 13:55:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER proc [dbo].[hx_proc_经营费用明细表]
+ @fgs varchar(100),
+ @fyear int,
+ @fmonth int
+as
+set nocount on
+
+/*
+declare @fgs varchar(100)
+declare @fyear int
+declare @fmonth int
+
+select @fgs=86,@fyear=2019,@fmonth=6
+*/
+create table #t 
+(
+fsjacctno varchar(100) default '',
+fsjacctname varchar(100) default '',
+facctno varchar(100) default '',
+facctname varchar(100) default '',
+fdyje decimal(28,2) default 0,
+fsyje decimal(28,2) default 0,
+fsntq decimal(28,2) default 0,
+fysycy decimal(28,2) default 0,
+fysncy decimal(28,2) default 0,
+fbnlj decimal(28,2) default 0,
+fhblj decimal(28,2) default 0,
+fsnlj decimal(28,2) default 0
+)
+
+declare @acct as table 
+(
+fnumber varchar(255) default '',
+fname varchar(255) default ''
+)
+
+declare @rpt as table
+(
+fsjacctno varchar(100) default '',
+fsjacctname varchar(100) default '',
+facctno varchar(100) default '',
+facctname varchar(100) default '',
+fdyje decimal(28,2) default 0,
+fsyje decimal(28,2) default 0,
+fsntq decimal(28,2) default 0,
+fysycy decimal(28,2) default 0,
+fysncy decimal(28,2) default 0,
+fbyzxsebl decimal(28,2) default 0,
+fsyzxsebl decimal(28,2) default 0,
+fsntqzxsebl decimal(28,2) default 0,
+fbnlj decimal(28,2) default 0,
+fhblj decimal(28,2) default 0,
+fsnlj decimal(28,2) default 0,
+fbnljzxsbl decimal(28,2) default 0,
+fhbzxsbl decimal(28,2) default 0,
+fsnljzxsbl decimal(28,2) default 0
+)
+
+declare @rpt1 as table
+(
+fsjacctno varchar(100) default '',
+fsjacctname varchar(100) default '',
+facctno varchar(100) default '',
+facctname varchar(100) default '',
+fdyje varchar(100) default '',
+fsyje varchar(100) default '',
+fsntq varchar(100) default '',
+fysycy varchar(100) default '',
+fysncy varchar(100) default '',
+fbyzxsebl varchar(100) default '',
+fsyzxsebl varchar(100) default '',
+fsntqzxsebl varchar(100) default '',
+fbnlj varchar(100) default '',
+fhblj varchar(100) default '',
+fsnlj varchar(100) default '',
+fbnljzxsbl varchar(100) default '',
+fhbzxsbl varchar(100) default '',
+fsnljzxsbl varchar(100) default ''
+)
+
+
+
+insert into #t(facctno,facctname,fdyje,fsyje)
+select 
+'','销售额',FAmount,0 from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear and fmonth=@fmonth and FIndex=10 and
+FGsID=@fgs
+union all
+select 
+'','销售额',-FAmount,0 from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear and fmonth=@fmonth and FIndex=13 and
+FGsID=@fgs
+union all
+select 
+'','销售额',0,FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where FYear=case when @fmonth=1 then  @fyear-1 else @fyear end and
+fmonth=case when @fmonth=1 then 12 else @fmonth end and FIndex=10 and
+FGsID=@fgs
+union all
+select 
+'','销售额',0,-FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where FYear=case when @fmonth=1 then  @fyear-1 else @fyear end and
+fmonth=case when @fmonth=1 then 12 else @fmonth end
+ and FIndex=13 and
+FGsID=@fgs
+
+
+insert into #t(facctno,facctname,fsntq)
+select 
+'','销售额',FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear-1 and fmonth=@fmonth and FIndex=10 and
+FGsID=@fgs
+union all
+select 
+'','销售额',-FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear-1 and fmonth=@fmonth and FIndex=13 and
+FGsID=@fgs
+
+
+insert into #t(facctno,facctname,fbnlj)
+select 
+'','销售额',FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear and fmonth<=@fmonth and FIndex=10 and
+FGsID=@fgs
+union all
+select 
+'','销售额',-FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear and fmonth<=@fmonth and FIndex=13 and
+FGsID=@fgs
+
+insert into #t(facctno,facctname,fsnlj)
+select 
+'','销售额',FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear-1 and fmonth<=@fmonth and FIndex=10 and
+FGsID=@fgs
+union all
+select 
+'','销售额',-FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear-1 and fmonth<=@fmonth and FIndex=13 and
+FGsID=@fgs
+
+--本年费用汇总数据、费用报销数据
+insert into #t(facctno,facctname,fdyje,fsyje)
+select facctno,facctname,fje,0 from oz_vw_fyhz where fgsid=@fgs and bbqjn=@fyear and bbqjy=@fmonth 
+and left(facctno,4) in ('6601','6602','6603') and facctno not in ('6601.70','6601.71')
+union all
+select facctno,facctname,0,fje from oz_vw_fyhz where fgsid=@fgs and 
+bbqjn=case when @fmonth=1 then  @fyear-1 else @fyear end and
+bbqjy=case when @fmonth=1 then 12 else @fmonth end 
+and left(facctno,4) in ('6601','6602','6603') and facctno not in ('6601.70','6601.71')
+
+insert into #t(facctno,facctname,fdyje,fsyje)
+select '6601.70','业务提成',famount,0 from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear and fmonth=@fmonth  and FIndex =47
+union all
+select '6601.71','销售提成',famount,0 from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear and fmonth=@fmonth  and FIndex =48
+union all
+select  '6603.21','存货占用利息',FAmount,0 from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear and fmonth=@fmonth  and FIndex =71
+union all
+select '6601.70','业务提成',famount,0 from Oz_LrbTemp
+where  FGsID=@fgs and
+FYear=case when @fmonth=1 then  @fyear-1 else @fyear end and
+fmonth=case when @fmonth=1 then 12 else @fmonth end and FIndex =47
+union all
+select '6601.71','销售提成',0,famount from Oz_LrbTemp
+where  FGsID=@fgs and 
+FYear=case when @fmonth=1 then  @fyear-1 else @fyear end and
+fmonth=case when @fmonth=1 then 12 else @fmonth end and FIndex =48
+union all
+select  '6603.21','存货占用利息',0,famount from Oz_LrbTemp
+where  FGsID=@fgs  and
+FYear=case when @fmonth=1 then  @fyear-1 else @fyear end and
+fmonth=case when @fmonth=1 then 12 else @fmonth end and FIndex =71
+
+insert into #t(facctno,facctname,fsntq)
+select '6601.70','业务提成',famount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear-1 and fmonth=@fmonth  and FIndex =47
+union all
+select '6601.71','销售提成',famount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear-1 and fmonth=@fmonth  and FIndex =48
+union all
+select  '6603.21','存货占用利息',FAmount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear-1 and fmonth=@fmonth  and FIndex =71
+--同比上年费用汇总数据、费用报销数据
+
+insert into #t(facctno,facctname,fsntq)
+select facctno,facctname,fje from oz_vw_fyhz where fgsid=@fgs and bbqjn=@fyear-1 and bbqjy=@fmonth 
+and left(facctno,4) in ('6601','6602','6603') and facctno not in ('6601.70','6601.71')
+
+
+
+insert into #t(facctno,facctname,fysycy)
+select facctno,facctname,sum(fdyje)-sum(fsyje) from #t
+group by facctno,facctname
+
+insert into #t(facctno,facctname,fysncy)
+select facctno,facctname,sum(fdyje)-sum(fsntq) from #t
+group by facctno,facctname
+
+
+insert into #t(facctno,facctname,fbnlj)
+select facctno,facctname,fje from oz_vw_fyhz where fgsid=@fgs and bbqjn=@fyear and bbqjy<=@fmonth 
+and left(facctno,4) in ('6601','6602','6603') and facctno not in ('6601.70','6601.71')
+
+insert into #t(facctno,facctname,fbnlj)
+select '6601.70','业务提成',famount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear and fmonth<=@fmonth  and FIndex =47
+union all
+select '6601.71','销售提成',famount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear and fmonth<=@fmonth  and FIndex =48
+union all
+select  '6603.21','存货占用利息',FAmount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear and fmonth<=@fmonth  and FIndex =71
+
+
+insert into #t(facctno,facctname,fsnlj)
+select facctno,facctname,fje from oz_vw_fyhz where fgsid=@fgs and bbqjn=@fyear-1 and bbqjy<=@fmonth 
+and left(facctno,4) in ('6601','6602','6603') and facctno not in ('6601.70','6601.71')
+
+insert into #t(facctno,facctname,fsnlj)
+select '6601.70','业务提成',famount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear-1 and fmonth<=@fmonth  and FIndex =47
+union all
+select '6601.71','销售提成',famount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear-1 and fmonth<=@fmonth  and FIndex =48
+union all
+select  '6603.21','存货占用利息',FAmount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear-1 and fmonth<=@fmonth  and FIndex =71
+
+declare @fno int
+select @fno=1 
+while @fno<=@fmonth
+begin
+  insert into #t(facctno,facctname,fhblj)
+  select facctno,facctname,fje from oz_vw_fyhz where fgsid=@fgs and bbqjn=@fyear-1 and bbqjy=12-@fno 
+  and left(facctno,4) in ('6601','6602','6603') and facctno not in ('6601.70','6601.71')
+
+  insert into #t(facctno,facctname,fhblj)
+select '6601.70','业务提成',famount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear-1 and fmonth=12-@fno   and FIndex =47
+union all
+select '6601.71','销售提成',famount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear-1 and fmonth=12-@fno   and FIndex =48
+union all
+select  '6603.21','存货占用利息',FAmount from Oz_LrbTemp
+where  FGsID=@fgs and FYear=@fyear-1 and fmonth=12-@fno  and FIndex =71
+
+  insert into #t(facctno,facctname,fhblj)
+select 
+'','销售额',FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear-1 and fmonth=12-@fno and FIndex=10 and
+FGsID=@fgs
+union all
+select 
+'','销售额',-FAmount from Oz_LrbTemp t1
+left join oz_vw_gs t2 on t1.FGsID=t2.id
+where fyear=@fyear-1 and fmonth=12-@fno and FIndex=13 and
+FGsID=@fgs
+
+  select @fno = @fno+1
+end
+
+
+
+insert into @acct(fnumber,fname)
+select dm,name from openquery(hxrpt,
+'select * from kjkm  where kmdj=''1''') where  left(dm,4) in ('6601','6602','6603')
+
+update t1 set fsjacctno=isnull(t2.fnumber,''),fsjacctname=isnull(t2.fname,'')
+from #t t1 
+left join @acct  t2 on left(t1.facctno,4)=t2.fnumber
+
+insert into @rpt(fsjacctno,fsjacctname,facctno,facctname,fdyje,fsyje,fsntq,fysycy,fysncy,fbnlj,fhblj,fsnlj)
+select fsjacctno,fsjacctname,facctno,facctname,sum(fdyje),sum(fsyje),
+sum(fsntq),sum(fysycy),sum(fysncy),
+sum(fbnlj),sum(fhblj),sum(fsnlj) from #t 
+group by facctno,facctname,fsjacctno,fsjacctname
+
+insert into @rpt(fsjacctno,fsjacctname,facctno,facctname,fdyje,fsyje,fsntq,fysycy,fysncy,fbnlj,fhblj,fsnlj)
+select fsjacctno,fsjacctname,fsjacctno,fsjacctname,sum(fdyje),sum(fsyje),
+sum(fsntq),sum(fysycy),sum(fysncy),
+sum(fbnlj),sum(fhblj),sum(fsnlj) from @rpt
+group by fsjacctno,fsjacctname
+
+
+delete from @rpt where ISNULL(facctname,'')=''
+
+update t set fbyzxsebl=case when isnull(t1.fdyje,0)=0 then 0 else (t.fdyje/t1.fdyje)*100 end, 
+fsyzxsebl=case when isnull(t1.fsyje,0)=0 then 0 else (t.fsyje/t1.fsyje)*100 end,
+fsntqzxsebl=case when isnull(t1.fsntq,0)=0 then 0 else (t.fsntq/t1.fsntq)*100 end,
+fbnljzxsbl=case when isnull(t1.fbnlj,0)=0 then 0 else (t.fbnlj/t1.fbnlj)*100 end,
+fhbzxsbl=case when isnull(t1.fhblj,0)=0 then 0 else (t.fhblj/t1.fhblj)*100 end,
+fsnljzxsbl=case when isnull(t1.fsnlj,0)=0 then 0 else (t.fsnlj/t1.fsnlj)*100 end
+from @rpt t
+left join @rpt t1 on t1.facctname = '销售额'
+
+update @rpt set fbyzxsebl=0,fsyzxsebl=0,fsntqzxsebl=0,fbnljzxsbl=0,fhbzxsbl=0,fsnljzxsbl=0
+ where facctname = '销售额'
+
+insert into @rpt1(fsjacctno,fsjacctname,facctno,facctname,fdyje,fsyje,fsntq,fysycy,fysncy,
+fbyzxsebl,fsyzxsebl,fsntqzxsebl,fbnlj,fhblj,fsnlj,fbnljzxsbl,fhbzxsbl,fsnljzxsbl)
+select * from @rpt
+
+select facctno,facctname,fdyje,fsyje,fysycy,fsntq,fysncy,fbyzxsebl,
+fsyzxsebl,fsntqzxsebl,fbnlj,fhblj,fsnlj,fbnljzxsbl,fhbzxsbl,fsnljzxsbl
+from @rpt1 order by facctno
+
+drop table #t 
+
+set nocount off
 
 
 
