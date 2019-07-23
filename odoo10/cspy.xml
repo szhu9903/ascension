@@ -69,7 +69,7 @@
     <record model="ir.ui.view" id="view_d_note_search"> 
       <field name="name">查询</field>  
       <field name="model">demonote.demonote</field>  
-      <field name="arch" type="xml"> 
+      <field name="arch" type="xml">  
         <search string="笔记"> 
           <!-- 可搜索的内容 -->  
           <field name="title"/>  

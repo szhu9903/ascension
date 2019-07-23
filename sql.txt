@@ -148,6 +148,16 @@ ORDER BY
 SELECT create_date,to_char(create_date,'YYYY-MM-DD') as dates from   oz_th_cost_detail
 
 
+-- sqlserver 分页
+
+select top 10 * from person 
+where id not in(
+select top 40 id from person order by id
+) order by id
+
+-- sql 存储过程
+
+
 
 
 
