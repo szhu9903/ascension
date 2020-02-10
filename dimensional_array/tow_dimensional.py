@@ -128,6 +128,7 @@ p = pd.Panel(data)
 '''
 
 # pandas 基础功能
+'''
 import pandas as pd
 import numpy as np
 
@@ -137,7 +138,14 @@ data = {
     'Rating': pd.Series(['A','B','A','C','A','A','C','B'])
         }
 print(pd.DataFrame(data).T)
-
+'''
+re = []
+a = {'felec_before': 2718.0, 'felec_after': 2802.0, 'index': 6.0, 'fcost_room_num': 4106.0, 'fstart_date': '2019-06-25', 'felec_all': 84.0, 'fend_date': '2019-07-25', 'fremark': 'nan'}
+for key in a:
+	if type(a[key]) is float:
+		a[key] = int(a[key])
+re.append(a)
+print(re)
 
 
 

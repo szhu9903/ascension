@@ -63,7 +63,7 @@ ivals = list(filter(is_int,values))
 print(ivals)
 '''
 
-
+'''
 result = {
     'join':45.3,
     'Tom':103,
@@ -76,6 +76,14 @@ p1 = {key:value for key,value in result.items() if value > 100}
 p2 = dict((key,value) for key,value in result.items() if value > 100)
 
 print(p2)
+'''
+
+
+import os
+a = os.urandom(20)
+print(a)
+b = a.decode('gbk')
+print(b)
 
 
 
