@@ -19,5 +19,4 @@ def test1(a,n):
         print(er)
 
 if __name__ == '__main__':
-    # print(test(5))
     print(test1(1,0))
