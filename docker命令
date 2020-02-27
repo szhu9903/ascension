@@ -1,0 +1,20 @@
+检测客户端和服务端是否都已经成功运行
+docker version
+
+查看运行的镜像
+docker image ls
+
+
+
+查看正在运行的所有容器
+docker ps
+
+进入容器
+docker run -it 镜像名  /bin/bash
+
+
+exit
+退出容器
+
+提交容器生成新镜像
+docker commit 容器id 新的镜像名
