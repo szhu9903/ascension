@@ -2,6 +2,7 @@ import random
 import time
 from threading import Thread
 import queue
+import redis
 
 qu = queue.Queue(10)
 
