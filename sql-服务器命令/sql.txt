@@ -1,4 +1,4 @@
-选择 ：select * from table where 范围
+﻿选择 ：select * from table where 范围
 
 插入 ：insert into table(field1,field2) value(value1,value2)
 
@@ -70,6 +70,12 @@ inner join(等值连接) 只返回两个表中联结字段相等的行
     create [UNIQUE|FULLTEXT|SPATIAL] index index_name 
     [USING index]
     index_name : 自定义的索引的名称
+
+创建视图
+
+
+
+创建存储过程
 
 
 
