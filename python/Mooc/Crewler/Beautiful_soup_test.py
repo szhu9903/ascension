@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import requests
+import requests,re
 
 def beautiful_test(url):
     try:
@@ -31,15 +31,17 @@ def beautiful_test(url):
             tag.next_sibling 下一个节点
             tag.next_siblings 后面所有节点
         """
-        print(tag_head.contents[1])
-        for i in tag_head.children:
-            print(i)
+        print(response_data_text.find(title='Older Comments').get('href'))
+        for img in response_data_text.find_all(src=re.compile(r'wx')):
+            print(img.get('src'))
+
+
         return response_data_text
     except Exception as er:
         return 'Error:%s'%er
 
 
 if __name__ == '__main__':
-    url = 'https://zsjblog.com/index'
+    url = 'http://jandan.net/ooxx'
     beautiful_test(url)
 
