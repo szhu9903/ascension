@@ -1,16 +1,24 @@
-# -*- coding: 'utf-8' -*-
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
-#创建数据图形
-data = [9,6,3,2,5,8,7,4,1,2,3,6,5,4,7,8,9,5,1,4,7,5,3,6,9]
-plt.plot(data)
-#xy轴name
-plt.xlabel('X轴')
-plt.ylabel('Y轴')
-plt.axis([0, len(data)+1, 0, 10])
+# plt.plot([0,2,6,7,8,9],[1,2,3,4,5,6])
+# plt.xlabel("X")
+# plt.ylabel("Y")
+# plt.axis([-1,10,0,7])
+# plt.show()
+
+import matplotlib.pyplot  as  plt
+import numpy as np
+from random import choice
+
+num_all = []
+index = 1.5
+rgb = ['b','g','r','c','m']
+for i in range(5):
+    a = np.arange(10)
+    plt.plot(a,a*index,choice(rgb))
+    index += 1
+plt.xlabel('X')
+plt.ylabel('Y')
 plt.show()
-
-
-
 
 
