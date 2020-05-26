@@ -29,7 +29,6 @@
 # plt.show()
 
 
-
 # 正弦波cos
 # import matplotlib.pyplot as plt
 # import numpy as np
@@ -53,22 +52,12 @@ import matplotlib
 matplotlib.rcParams['font.family'] = 'SimHei'
 matplotlib.rcParams['font.size'] = 16
 
-labels = '一月份','二月份','三月份','四月份','五月份','六月份'
-sizes = [10,20,30,5,10,25]
-explode = (0,0,0,0,0.1,0)
+labels = '一月份', '二月份', '三月份', '四月份', '五月份', '六月份'
+sizes = [10, 20, 30, 5, 10, 25]
+explode = (0, 0, 0, 0, 0.1, 0)
 
 
-plt.pie(sizes,explode=explode,labels=labels,autopct='%1.1f%%',
-        shadow=False,startangle=90)
+plt.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+        shadow=False, startangle=90)
 plt.axis('equal')
 plt.show()
-
-
-
-
-
-
-
-
-
-
