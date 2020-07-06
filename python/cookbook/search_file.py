@@ -8,8 +8,7 @@ def test_path_jpg(test_path,search):
     try:
         for root,dirs,files in os.walk(test_path):
             jpg_list = [path for path in files if fnmatch(path.lower(),'*%s'%search)]
-            if jpg_list:
-                print({test_path:jpg_list})
+            if jpg_list:print({test_path:jpg_list})
             for path_down in dirs and dirs:
                 path_down = os.path.join(test_path,path_down)
                 test_path_jpg(path_down,search)
