@@ -18,7 +18,6 @@ def is_sqr(num):
 
 
 
-
 if __name__ == '__main__':
 
     # function list
@@ -27,8 +26,11 @@ if __name__ == '__main__':
 
     # new_num = reduce(prod,[2,4,5,7,12])
     # print(new_num)
-    new_sqr = filter(is_sqr,range(1,100))
-    print(list(new_sqr))
+
+    # new_sqr = filter(is_sqr,range(1,100))
+    # print(list(new_sqr))
+
+    print(sorted(['bob','about','Zoo','Credit'],key=str.lower,reverse=False))
 
 
 
