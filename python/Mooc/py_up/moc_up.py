@@ -16,6 +16,12 @@ def is_sqr(num):
     r = int(math.sqrt(num))
     return r*r==num
 
+# json数据分组汇总
+import itertools
+def group_json(data):
+    data.sort(key=lambda x:x['codes'])
+    for key,value in itertools.groupby(data,key=lambda x:x['codes']):
+        print(key,value)
 
 
 if __name__ == '__main__':
