@@ -30,7 +30,11 @@ if __name__ == '__main__':
     # new_sqr = filter(is_sqr,range(1,100))
     # print(list(new_sqr))
 
-    print(sorted(['bob','about','Zoo','Credit'],key=str.lower,reverse=False))
+    # print(sorted(['bob','about','Zoo','Credit'],key=str.lower,reverse=False))
+
+    # lambda 匿名函数
+    new_lam = filter(lambda s: s and len(s.strip())>0,['test', None, '', 'str', '  ', 'END'])
+    print(list(new_lam))
 
 
 
