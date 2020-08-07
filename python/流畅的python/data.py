@@ -11,3 +11,8 @@ def insert_sort():
     return my_list
 
 print(insert_sort())
+
+a = ['a','b','c']
+b = [1,2,30]
+c = [dict(zip(a,b))]
+print(c)
