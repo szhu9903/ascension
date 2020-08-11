@@ -4,9 +4,11 @@ from helper.db_helper import *
 from werkzeug.security import generate_password_hash,check_password_hash
 
 class User(UserMixin):
-    def __init__(self,user_name):
-        self.user_name = user_name
-        self.id = self.get_id()
+    def __init__(self,id):
+        self.id = id
+        self.username = None
+        self.user_data = None
+
 
     # 校验密码
     def verify_password(self,password):
@@ -17,7 +19,7 @@ class User(UserMixin):
 
 
     def get_password_hash(self):
-        pwd_sql = "select zpwd from zsj_blog_user where  zaccount='%s'"%self.user_name
+        pwd_sql = "select zpwd from zsj_blog_user where  zid='%s'"%self.id
         try:
             user_pwd = getSelect(pwd_sql)
             if user_pwd:
@@ -26,8 +28,9 @@ class User(UserMixin):
             return None
         return None
 
-    def get_id(self):
-        get_userid = "select zid from zsj_blog_user where zaccount='%s'"%self.user_name
+    @staticmethod
+    def get_username(username):
+        get_userid = "select zid from zsj_blog_user where zaccount='%s'"%username
         try:
             user_id = getSelect(get_userid)
             if user_id:
@@ -44,12 +47,14 @@ class User(UserMixin):
         try:
             user_data = getSelect(get_user_sql)
             if user_data:
-                user = User(user_data[0][1])
+                user = User(user_id)
                 user.user_data = user_data
+                user.username = user_data[0][1]
                 return user
         except:
             return None
         return None
+
 
 
 

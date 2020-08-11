@@ -14,17 +14,20 @@ def load_user(user_id):
 @login_required
 def index():
     user = current_user
-    return render_template('index.html',user_name=current_user.user_name)
+    return render_template('index.html')
 
 @app.route('/login',methods=['POST','GET'])
 def login():
     user_name = request.form.get('user_name','')
     user_pwd = request.form.get('user_pwd','')
-    if user_name:
-        user = User(user_name)
+    remember_me = request.form.get('remember_me','')
+    user_id = User.get_username(user_name)
+    if user_id:
+        user = User(user_id)
         if user.verify_password(user_pwd):
-            login_user(user)
+            login_user(user,remember=remember_me)
             return redirect(url_for('index'))
+
     return render_template('login.html')
 
 
