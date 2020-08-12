@@ -30,5 +30,10 @@ def login():
 
     return render_template('login.html')
 
+# @app.route('/test/insert',methods=['GET','POST'])
+# def test_insert():
+#     try:
+#         sql1 = 'insert into '
+
 
 

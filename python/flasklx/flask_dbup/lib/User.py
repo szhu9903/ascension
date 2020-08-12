@@ -19,7 +19,7 @@ class User(UserMixin):
 
 
     def get_password_hash(self):
-        pwd_sql = "select zpwd from zsj_blog_user where  zid='%s'"%self.id
+        pwd_sql = "select zpwd from zsj_blog_user where  id='%s'"%self.id
         try:
             user_pwd = getSelect(pwd_sql)
             if user_pwd:
@@ -30,7 +30,7 @@ class User(UserMixin):
 
     @staticmethod
     def get_username(username):
-        get_userid = "select zid from zsj_blog_user where zaccount='%s'"%username
+        get_userid = "select id from zsj_blog_user where zaccount='%s'"%username
         try:
             user_id = getSelect(get_userid)
             if user_id:
@@ -43,7 +43,7 @@ class User(UserMixin):
     def get(user_id):
         if not user_id:
             return None
-        get_user_sql = "select zid,zaccount,zsex from zsj_blog_user where zid='%s'"%user_id
+        get_user_sql = "select id,zuser_name,zaccount,zsex from zsj_blog_user where id='%s'"%user_id
         try:
             user_data = getSelect(get_user_sql)
             if user_data:
