@@ -1,4 +1,4 @@
-from  resource import app,login_message
+from  resource import app,login_message,session
 from flask import request,render_template,redirect,url_for
 from flask_login import login_user,logout_user,login_required,current_user
 from helper.db_helper import getSelect
@@ -30,10 +30,16 @@ def login():
 
     return render_template('login.html')
 
-# @app.route('/test/insert',methods=['GET','POST'])
-# def test_insert():
-#     try:
-#         sql1 = 'insert into '
+@app.route('/test/insert',methods=['GET','POST'])
+def test_insert():
+    try:
+        sql1 = """insert into zsj_blog_type(ztype_name, zblog_count)VALUES ('测试事务提交',1)"""
+        session.add(sql1)
+        session.commit()
+    except Exception as er:
+        session.rollback()
+        print(er)
+        return 'Error'
 
 
 
