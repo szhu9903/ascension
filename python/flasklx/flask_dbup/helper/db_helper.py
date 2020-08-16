@@ -1,8 +1,9 @@
-from resource import db_url,session,engine
+from resource import db_url,session,engine,connection
 
-connection = engine.connect()
 
-def getSelect(sql,pargm=None):
+
+def getSelect(sql,pargm=None,tran=None):
+
     if not pargm:
         sql = sql.replace('%','%%')
     try:
@@ -10,11 +11,22 @@ def getSelect(sql,pargm=None):
     except Exception as er:
         print(er)
         return None
-    # connection.close()
     return res.fetchall()
 
-def updateSql(sql,pargm=None):
-    connection = engine.connect()
+def updateSql(sql,pargm=None,tran=None):
+    # if isinstance(sql,list):
+    #     try:
+    #         for sqli in sql:
+    #             connection.execute(sqli)
+    #         tran.commit()
+    #         return True
+    #     except Exception as er:
+    #         print(er)
+    #         tran.rollback()
+    #         return False
+    # else:
+
+
     if not pargm:
         sql = sql.replace('%','%%')
     res = connection.execute(sql, pargm) if pargm else connection.execute(sql)
