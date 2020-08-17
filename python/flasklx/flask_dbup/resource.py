@@ -20,7 +20,7 @@ login_message = LoginManager()
 login_message.login_view = 'login'
 login_message.init_app(app)
 
-engine = create_engine(db_url,echo=True)
+engine = create_engine(mysql_db_url,echo=True)
 connection = engine.connect()
 
 DBSession = sessionmaker(bind=engine)
