@@ -1,11 +1,16 @@
 ﻿
 Mysql
 
+数据库服务
+	启动MySQL数据库服务：net start mysql
+	停止MySQL数据库服务：net stop mysql
+
 登录mysql
 	mysql -u root -p
 查看版本信息
 	status
-查看所有数据库
+显示数据库列表
 	show databases
+
 
 
