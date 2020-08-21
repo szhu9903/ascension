@@ -17,4 +17,9 @@ MySQL系统信息
 	删除数据库 : drop database db_name
 
 	跳转到数据库 ： use db_name
+常用数据表操作：
+	浮点数类型：float(单精度浮点数） double(双精度浮点数)  decimal(10，0)
+	时间类型：year、time、date、datetime、timestamp(时区)
+	字符串类型：char(m：固定长度字符串)  varchar(m:固定长度不满足是 自动删除空格)  text(文章评论 非二进制)
+
 
