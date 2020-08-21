@@ -5,12 +5,16 @@ Mysql
 	启动MySQL数据库服务：net start mysql
 	停止MySQL数据库服务：net stop mysql
 
-登录mysql
-	mysql -u root -p
-查看版本信息
-	status
-显示数据库列表
-	show databases
+MySQL系统信息
+	查看版本信息：status
+	查看数据库文件位置：show variables like 'datadir';
 
+常用数据库命令
+	登录mysql ： mysql -u root -p
+	显示数据库列表 ： show databases
+	创建数据库 ： create database db_name
+		创建数据库防止重名报错：create database if not exists db_name
+	删除数据库 : drop database db_name
 
+	跳转到数据库 ： use db_name
 
