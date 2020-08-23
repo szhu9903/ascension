@@ -1,4 +1,4 @@
-﻿
+
 Mysql
 
 数据库服务
@@ -21,5 +21,6 @@ MySQL系统信息
 	浮点数类型：float(单精度浮点数） double(双精度浮点数)  decimal(10，0)
 	时间类型：year、time、date、datetime、timestamp(时区)
 	字符串类型：char(m：固定长度字符串)  varchar(m:固定长度不满足是 自动删除空格)  text(文章评论 非二进制)
-
-
+		enum('val1','val2',val3:自动创建索引null or 0：)
+	二进制类型：blob(常用存储图片文件)
+	
