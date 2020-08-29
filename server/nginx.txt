@@ -68,5 +68,34 @@ nginx反向代理
 	}
 
 nginx负载均衡
+	配置多台服务器，将负载分发到不同的服务器上	
+	分配服务器策略
+		轮询（默认）： 按照时间顺序逐一分配到服务器上，自动提出down掉的服务器
+			upstream myserver_name{
+				server 127.0.0.1:8000;
+				server 127.0.0.1:8001;
+			}
+			location / {
+				proxy_pass http://myserver_name;
+			}
+		weight :权重策略，weight=10,权重越大负载越大
+			upstream myserver_name{
+				server 127.0.0.1:8000 weight=5;
+				server 127.0.0.1:8001 weight=10;
+			}
+		ip_hash:根据IP分配服务器，每个IP访客固定一个服务器，解决session问题 
+			upstream myserver_name{
+				ip_hash;
+				server 127.0.0.1:8000;
+				server 127.0.0.1:8001;	
+			}
+		fair第三方:按服务器响应时间
+		least_conn:最小连接数分配规则
+
 
 nginx动静分离
+	静态资源放在独立服务器上，常用通过单独的域名访问的方式
+	location{
+		root /data/;
+		autoindex no;
+	}
