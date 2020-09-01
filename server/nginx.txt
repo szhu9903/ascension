@@ -99,3 +99,6 @@ nginx动静分离
 		root /data/;
 		autoindex no;
 	}
+
+高可用 keepalived
+	两台nginx服务器，配置主从机，主nginx宕机，采用备用nginx服务器转发请求
