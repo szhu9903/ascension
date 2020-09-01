@@ -46,17 +46,49 @@ MySQL系统信息
     	alter table user add new_l int(4) first;(添加到开始位置)
     	alter table user add new_l int(4) after name; (添加到指定列之后)
 
-	创建外键：create table temp1(
+
+约束
+	主键约束（primary key）  
+		定义字段时创建主键索引：（ID int(4) primary key）,
+	 	定义完所有字段时：（constraint primary key id）
+		添加主键约束： alter table user add primary key (id);
+		删除主键约束： alter table user drop primary key;
+		创建自增主键索引：create table test(
+			id int(4) primary key aotu_increment,
+			name varchar(23)
+			);
+	外键约束 (foreign key)
+		创建外键约束：create table temp1(
 			id int(11) primary key,
 			name varchar(25));
-
 			create table temp2(
 			id int(11) primary key,
 			name varchar(20),
 			dept_id int(11),
 			constraint fk_temp1 foreign key (dept_id) references temp1(id)
 			) ;
-约束
-	主键约束：alter table <表名> add constraint primary key (<字段名>)；
+		修改表创建外键约束：alter table 表名 add constraint 外键名 foreign key (字段名) references 关联表（id）
+		删除外键约束: alter table 表名 drop foreign   外键名
+	唯一约束 (unique key) 
+		创建唯一约束： 字段名 类型 unique,
+		修改表创建唯一约束：alter table user add constraint unique(字段名) 
+		删除唯一索引Lalter table user drop index 字段名
+	检查约束（check）
+		修改表添加检查约束：alter table user add constraint check_ssi check(ssi>0 and ssi<10);
+		删除检查约束：alter table user drop constraint check_ssi;
+	默认值约束(default)
+		修改表时添加默认值约束：alter table user change column name name varchar(20) defaule 'test';
+		删除默认值约束：alter table user change column name name varchar(21) default NULL;
+	非空约束（not null）
+		修改表添加非空约束：alter table user change column name name varchar(21) not NULL;
+		删除非空约束：alter table user change column name name varchar(21) NULL;
 
-
+操作表中数据
+	去重查询 distinct 
+	区分大小写 binary   distinct binary
+	过滤分组 select name,avg(num) from user group by name having avg(num)>5;  获取名称分组后 num平均值大于某数值
+	正则表达式 regexp
+	从一张表复制数据到另一张表 insert into user2(fname,fage,fphone) select name,age,phone from user1
+	快速删除表中数据 truncate table;
+sql 视图和索引
+	创建视图 create view 视图名称 as select语句；
