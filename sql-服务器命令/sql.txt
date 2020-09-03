@@ -92,3 +92,4 @@ MySQL系统信息
 	快速删除表中数据 truncate table;
 sql 视图和索引
 	创建视图 create view 视图名称 as select语句；
+	删除视图 drop view 视图名称；
