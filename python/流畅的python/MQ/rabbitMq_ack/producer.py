@@ -18,3 +18,4 @@ channel.basic_publish(exchange='',
 
 print('success')
 connection.close()
+
