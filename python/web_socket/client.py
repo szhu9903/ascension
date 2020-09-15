@@ -2,11 +2,13 @@ import asyncio
 import websockets
 
 async def hello():
-    async with websockets.connect('ws://localhost:8759') as websocket:
-        name = input('name:')
-        await websocket.send(name)
-        print(name)
-        greeting = await websocket.recv()
-        print(greeting)
+    async with websockets.connect('ws://localhost:8765') as websocket:
+        async for message in websocket:
+            print(message)
 
-asyncio.get_event_loop().run_until_complete(hello())
+if __name__ == '__main__':
+    asyncio.get_event_loop().run_until_complete(hello())
+
+
+
+
