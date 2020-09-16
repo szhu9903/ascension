@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Web Socket client</title>
+	<script src="static/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript">
+		function WebSocketTest() {
+			if ("WebSocket" in window) {
+				// 打开一个Web Socket连接
+				var ws = new WebSocket("ws://localhost:8765")
+				// 建立回调函数
+				ws.onopen = function() {
+					ws.send("朱帅杰");
+					$("#main").append("<p>"+"朱帅杰"+"</p>")
+				};
+				
+				ws.onmessage = function(evt){
+					var server_data = evt.data;
+					if (server_data.indexOf("sorry") == -1) {
+						$("#main").append("<p>" + "=>" + server_data + "</p>")
+					}
+				};
+				
+				// 连接关闭后的回调函数
+				ws.onclose = function () {
+					// 关闭 websocket
+					alert("连接已关闭...");
+				};
+
+			} else {
+				alert("您的浏览器不支持WebSocket!")
+			}
+		}
+	</script>
+	
+</head>
+<body onload="WebSocketTest()">
+	<div id="main"></div>
+</body>
+</html>
