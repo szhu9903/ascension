@@ -1,6 +1,7 @@
 import asyncio
 import websockets
 
+
 async def hello(websocket, path):
     async for message in websocket:
         greeting = "hello %s"%message
