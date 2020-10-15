@@ -31,7 +31,11 @@ def reverse(self, x: int) -> int:
         return n
     return 0
 
-
+# TODO 待处理
+# if __name__ == '__main__':
+#     a = 'aabbccddeeffabcddbca'   #abcd
+#     a_bytes = bytes.fromhex(a)
+#     print(a)
 
 
 

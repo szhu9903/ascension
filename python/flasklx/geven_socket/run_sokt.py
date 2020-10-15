@@ -26,5 +26,5 @@ def index():
 
 if __name__ == '__main__':
     logger.info('start websocket')
-    http_server = WSGIServer(('0.0.0.0', 8005), app, handler_class=WebSocketHandler)
+    http_server = WSGIServer(('0.0.0.0', 5001), app, handler_class=WebSocketHandler)
     http_server.serve_forever()
