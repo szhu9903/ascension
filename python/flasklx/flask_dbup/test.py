@@ -1,4 +1,4 @@
 
+import multiprocessing
 
-a = 'AUTO_INCREMENT'
-print(a.lower())
+print(multiprocessing.cpu_count())
