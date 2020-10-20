@@ -93,3 +93,17 @@ MySQL系统信息
 sql 视图和索引
 	创建视图 create view 视图名称 as select语句；
 	删除视图 drop view 视图名称；
+
+	创建索引 
+		创建表时：create table user(
+			id bigint(20) primary key auto_increment,
+			column1 varchar(10),
+			column2 varchar(10)
+			index(column1,column2)
+		);
+		添加索引： create index 索引名 on 表名 (column1);
+		组合索引：遵循最左前缀 column1  column1,column2 
+
+
+
+
