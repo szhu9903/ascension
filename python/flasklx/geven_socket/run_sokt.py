@@ -11,16 +11,19 @@ logger = logging.getLogger('app')
 
 @app.route('/conn')
 def index():
-    #获取请求原始数据
-    user_socket = request.environ
-    #获取websocket对象
-    websocket_obj = user_socket['wsgi.websocket']
+    web_socket = request.environ.get('wsgi.websocket')
+    logger.info('websocket --> %s'%web_socket)
+    if not web_socket:
+        return "only connect"
 
-    while True:
+    while not web_socket.closed:
         # 监听链接,接收数据
-        msg = websocket_obj.receive()
+        msg = web_socket.receive()
         print(msg)
-        websocket_obj.send(msg + 'youtoo')
+        web_socket.send(msg + 'youtoo')
+
+    logger.info('close websocket')
+    return 'close websocket'
 
 
 
