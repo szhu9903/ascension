@@ -93,6 +93,7 @@ MySQL系统信息
 sql 视图和索引
 	创建视图 create view 视图名称 as select语句；
 	删除视图 drop view 视图名称；
+	创建或修改视图 create or replace view 视图名称 as 视图内容；
 
 	创建索引 
 		创建表时：create table user(
