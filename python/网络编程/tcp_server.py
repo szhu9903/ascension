@@ -11,11 +11,11 @@ def main():
         socket_server.bind((SOCKET_HOST,SOCKET_PORT))
         socket_server.listen()
         print("开始监听(%s:%s)"%(SOCKET_HOST,SOCKET_PORT))
+        # 利用循环开启，夯住
         socket_con, add = socket_server.accept()
-        print("HELLO %s"%add)
-        with socket_con as socket_cli:
-            data = socket_cli.recv()
-            socket_cli.send('【echo】%s'%data)
+        while True:
+            name = socket_con.recv(1024).decode('utf-8')
+            socket_con.send(('echo %s'%name).encode('utf-8'))
 
 
 if __name__ == '__main__':
