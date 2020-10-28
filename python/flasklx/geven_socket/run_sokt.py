@@ -1,33 +1,42 @@
 import logging
-from flask import Flask
-from flask import request
-from geventwebsocket import WebSocketError
-from gevent.pywsgi import WSGIServer
+import json
+from flask import Flask, request
 from geventwebsocket.handler import WebSocketHandler
+from gevent.pywsgi import WSGIServer
+
+# 初始化日志
+applog = logging.getLogger('app')
+applog.setLevel(logging.DEBUG)
+
+appHandler = logging.StreamHandler()
+appFormatter = logging.Formatter("[%(asctime)s] %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S")
+appHandler.setLevel(logging.DEBUG)
+appHandler.setFormatter(appFormatter)
+applog.addHandler(appHandler)
+
+
 
 app = Flask(__name__)
-logger = logging.getLogger('app')
 
-
-@app.route('/conn')
-def index():
-    web_socket = request.environ.get('wsgi.websocket')
-    logger.info('websocket --> %s'%web_socket)
+@app.route('/test/conn/')
+def test_conn():
+    web_socket = request.environ.get("wsgi.websocket")
     if not web_socket:
-        return "only connect"
-
+        return "ERROE NOT SOCKET"
     while not web_socket.closed:
-        # 监听链接,接收数据
-        msg = web_socket.receive()
-        print(msg)
-        web_socket.send(msg + 'youtoo')
-
-    logger.info('close websocket')
-    return 'close websocket'
+        ws_message = web_socket.receive()
+        if not ws_message:
+            break
+        else:
+            logger.info(json.loads(ws_message))
+            web_socket.send('HI ')
+    logger.info('close websocket(syncfunc)')
+    return 'close websocket(syncfunc)'
 
 
 
 if __name__ == '__main__':
-    logger.info('start websocket')
-    http_server = WSGIServer(('0.0.0.0', 5001), app, handler_class=WebSocketHandler)
+    logger = logging.getLogger('app')
+    logger.info("Start New Websocket")
+    http_server = WSGIServer(('0.0.0.0', 8005), app, handler_class = WebSocketHandler)
     http_server.serve_forever()
