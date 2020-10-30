@@ -20,3 +20,9 @@ exit
 
 提交容器生成新镜像
 docker commit 容器id 新的镜像名
+
+
+# 关闭容器
+docker rm -f webserver
+# 清理容器网络占用
+docker network disconnect --force bridge webserver
