@@ -103,6 +103,7 @@ sql 视图和索引
 			index(column1,column2)
 		);
 		添加索引： create index 索引名 on 表名 (column1);
+		修改表时增加索引： alter table 表名 add index 索引名(索引字段名);
 		组合索引：遵循最左前缀 column1  column1,column2 
 
 
