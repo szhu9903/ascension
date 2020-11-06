@@ -1,10 +1,26 @@
 from twisted.internet.protocol import Protocol
 from twisted.internet.protocol import Factory
 from twisted.internet import reactor
-from twisted.python import log
+import logging
 import struct
+import time
+
+def init_log():
+    # 初始化日志
+    applog = logging.getLogger('twisted log')
+    applog.setLevel(logging.DEBUG)
+    # 定义 Handler ,设置Handler的属性
+    appHandler = logging.StreamHandler()
+    appFormatter = logging.Formatter("[%(asctime)s] %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S")
+    appHandler.setLevel(logging.DEBUG)
+    appHandler.setFormatter(appFormatter)
+    # 初始化完成的Handler 添加进applog
+    applog.addHandler(appHandler)
+
+logger = logging.getLogger('twisted log')
 
 protocolList = []
+
 
 class GeneriProtocol(Protocol):
     def __init__(self, factory):
@@ -22,7 +38,7 @@ class GeneriProtocol(Protocol):
 
     # 接收到消息时调用
     def dataReceived(self, data):
-        print("data ---->%s"%data)
+        logger.info("data ---->%s"%data)
 
     # 当连接关闭时调用清除连接
     def connectionLost(self, reason):
@@ -30,6 +46,7 @@ class GeneriProtocol(Protocol):
             protocolList.remove(self)
         # 强制关闭
         self.transport.abortConnection()
+
 
 # 连接生产工厂 Factory创建一个Protocol实例，并将该实例的factory属性指向自己
 class GenericFactor(Factory):
@@ -39,9 +56,36 @@ class GenericFactor(Factory):
         return newProtocol
 
 
+# 执行任务 模拟发送消息操作，
+def time_sleep_test():
+    while True:
+        try:
+            now_time = time.time()
+            t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(now_time))
+            logger.info("NOW DATE " + t)
+        except Exception as err:
+            logger.error(err)
+        time.sleep(60)
+
+
+# 为任务开启新的线程，可以将耗时任务集中在此处执行，例如处理发送消息等
+def time_start_sleep():
+    reactor.callInThread(time_sleep_test)
+
+
+# 可以在此处定义延时执行任务的顺序，延时执行时间
+def repeat_task_set():
+    reactor.callLater(2, time_start_sleep)
+
+
 if __name__ == '__main__':
-    log.msg('start twisted ...')
+    # 初始化日志
+    init_log()
+    logger.info('start twisted ...')
     reactor.listenTCP(8000, GenericFactor())
+    # 设置线程池大小，默认值为(5-10)
+    reactor.suggestThreadPoolSize(20)
+    repeat_task_set()
     reactor.run()
 
 
