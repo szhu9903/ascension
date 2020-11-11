@@ -105,7 +105,19 @@ sql 视图和索引
 		添加索引： create index 索引名 on 表名 (column1);
 		修改表时增加索引： alter table 表名 add index 索引名(索引字段名);
 		组合索引：遵循最左前缀 column1  column1,column2 
-
+	创建触发器 
+		drop trigger if EXISTS [trigger_name];
+		DELIMITER ||
+		create trigger [trigger_name] 
+		[after|before] [insert|update|delete] on [table_name] for each row
+		begin 
+			IF(old.he_name != new.he_name) or (old.he_type != new.he_type)
+			THEN
+					set new.he_icid=old.icid + 1; 
+			end IF;
+		end
+		||
+		DELIMITER ;
 
 
 
