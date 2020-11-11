@@ -44,9 +44,9 @@ def run(num,th):
 
 
 if __name__ == '__main__':
-    p = multiprocessing.Pool(4)
+    p = multiprocessing.Pool(multiprocessing.cpu_count())
 
-    for i in range(4):
+    for i in range(multiprocessing.cpu_count()):
         p.apply_async(run,args=(10000,i))
     p.close()
     p.join()

@@ -10,7 +10,7 @@
 		function WebSocketTest() {
 			if ("WebSocket" in window) {
 				// 打开一个Web Socket连接
-				var ws = new WebSocket("ws://localhost:8765")
+				var ws = new WebSocket("ws://127.0.0.1:8005/wsmsg/bloodtype/");
 				// 建立回调函数
 				ws.onopen = function() {
 					ws.send("朱帅杰");

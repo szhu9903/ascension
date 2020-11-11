@@ -20,3 +20,11 @@ linux命令
 进程
 	进程树展示进程：pstree -ap|grep nginx
 	显示某进程信息：ps -ef|grep nginx
+
+tar 打包
+	打包成tar.gz格式压缩包
+
+	# tar -zcvf renwolesshel.tar.gz /renwolesshel
+	解压tar.gz格式压缩包
+
+	# tar zxvf renwolesshel.tar.gz
