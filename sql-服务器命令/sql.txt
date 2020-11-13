@@ -91,7 +91,7 @@ MySQL系统信息
 	从一张表复制数据到另一张表 insert into user2(fname,fage,fphone) select name,age,phone from user1
 	快速删除表中数据 truncate table;
 sql 视图和索引
-	创建视图 create view 视图名称 as select语句；
+	创建视图 create view 视图名称 as select 语句；
 	删除视图 drop view 视图名称；
 	创建或修改视图 create or replace view 视图名称 as 视图内容；
 
@@ -118,6 +118,28 @@ sql 视图和索引
 		end
 		||
 		DELIMITER ;
+	创建存储过程
+		-- delimiter 用在命令行，非命令行，不需要结尾delimiter; 
+		delimiter //
+		-- 如果存在旧的存储过程，删除旧的存储过程，
+		DROP PROCEDURE IF EXISTS insert_icid;
+		-- 传递参数 in param_name param_type,
+		CREATE PROCEDURE insert_icid(in startphone varchar(50))
+		BEGIN
+			DECLARE num INT default 0;
+			WHILE num<10 DO
+			BEGIN
+				-- concat : 字符串拼接
+				-- floor : 向下取整 3.69->3
+				-- rand : 获取0-1随机数
+				INSERT INTO Sys_Iccard (si_cardnum, si_phonenum) 
+				values(CONCAT('55694266987125658', FLOOR(RAND() * 1000)), CONCAT(startphone, FLOOR(RAND() * 10000)));
+			END;
+			END WHILE;
+		select * from sys_iccard order by id desc limit 50;
+		END;
+		// delimiter;
 
+		call procedure_name('15994092160')
 
 
