@@ -1,9 +1,12 @@
 
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table
+# getSampleStyleSheet： 预设样式库
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import letter
+# 设置字体
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+
 from reportlab.lib.units import inch
 from reportlab.lib import colors
 
@@ -13,6 +16,7 @@ pdfmetrics.registerFont(TTFont('song', r'E:\PythonObject\python提升\ascension\
 doc = SimpleDocTemplate(r'E:/test.pdf', pagesize = letter)
 width, height = letter
 
+# 预设样式
 styles = getSampleStyleSheet()
 title = styles['Title']
 title.fontName = 'song'
