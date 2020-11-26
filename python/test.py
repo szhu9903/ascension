@@ -1,101 +1,62 @@
-# import requests, json
-#
-# class RequestTest(object):
-#     def __init__(self, module_name):
-#         self.url = "http://127.0.0.1:8005/api/v1.0/config/%s/"%module_name
-#         self.headers = {'user-agent':'Mozilla/5.0','Content-Type':'application/json'}
-#         self.cookies = self.login_response_data().cookies
-#
-#     def get_response_data(self):
-#         response_data = requests.get(self.url,
-#                                      timeout = 30,
-#                                      headers = self.headers,
-#                                      cookies=self.cookies)
-#         response_data.raise_for_status()
-#         response_data.encoding = 'utf-8'
-#         res = response_data.json()
-#         return res
-#
-#     def delete_response_data(self, del_id):
-#         del_url = self.url + str(del_id) + '/'
-#         response_data = requests.delete(url = del_url,
-#                                         timeout = 30,
-#                                         headers = self.headers,
-#                                         cookies=self.cookies)
-#         response_data.raise_for_status()
-#         response_data.encoding = 'utf-8'
-#         res = response_data.json()
-#         return res['ack_result']['status']
-#
-#     def login_response_data(self):
-#         url = "http://127.0.0.1:8005/api/v1.0/commfunc/login/"
-#         post_data = {
-#             "req_info":{
-#                 "data":{
-#                     "user_name": "hudeli",
-#                     "user_password": "12345 ",
-#                     "terminal_type": "APP",
-#                     "adid":1
-#                 }
-#             }
-#         }
-#         response_data = requests.post(url,
-#                                       data = json.dumps(post_data),
-#                                       headers = self.headers)
-#         response_data.raise_for_status()
-#         response_data.encoding = 'utf-8'
-#         return response_data
-#
-#
-#
-# if __name__ == '__main__':
-#     ratio = RequestTest('ConfigRatio')
-#     data = ratio.get_response_data()
-#     result = None
-#     if data['ack_result']['data']:
-#         id_list = [data['id'] for data in data['ack_result']['data']]
-#         result = list(map(ratio.delete_response_data,id_list))
-#     print(result)
 
-"""
-DBUtils python管理数据库的包，可自动管理连接对象的创建与释放，常用外部接口
-PersistentDB:提供线程专用数据库连接，并自动管理连接
-PooledDB:提供线程间可共享的数据库连接，并能自动管理连接
-"""
+import struct
+import math
+import logging
 
-import pymysql
-from DBUtils.pooled_db import PooledDB,SharedDBConnection
-# 创建线程池,配置项，源码说明
-pool = PooledDB(pymysql, 5, host="127.0.0.1", user='root',
-                passwd='1017', db='erpdb_test', port=3306, charset="utf8")
-# 从线程池获取连接
-conn = pool.connection()
-# 创建游标
-cur = conn.cursor()
-r = cur.execute("select * from user_base").fetchall()
-print(r)
-cur.close()
-conn.close()
+
+# 添加日志设置等级，
+logger = logging.getLogger('logName')
+logger.setLevel(logging.DEBUG)
+# 设置Handle, 在Handle中配置日志输出格式
+loggerHandle = logging.StreamHandler()
+# 注意日志格式设置中时间，是","号隔开的
+loggerFormatter = logging.Formatter("[%(asctime)s] %(levelname)s %(message)s", '%Y-%m-%d %H:%M:%S')
+loggerHandle.setLevel(logging.DEBUG)
+loggerHandle.setFormatter(loggerFormatter)
+# 将设置好的Handle添加进设置的日志中
+logger.addHandler(loggerHandle)
 
 
 
 
 
 
+if __name__ == '__main__':
+    # request_data = b'[GET / HTTP/1.1\r\nHost: localhost:9000\r\nConnection: keep-alive\r\nCache-Control: max-age=0\r\nUpgrade-Insecure-Requests: 1\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\nSec-Fetch-Site: none\r\nSec-Fetch-Mode: navigate\r\nSec-Fetch-User: ?1\r\nSec-Fetch-Dest: document\r\nAccept-Encoding: gzip, deflate, br\r\nAccept-Language: zh-CN,zh;q=0.9,en;q=0.8\r\n\r\n'
+    # print(request_data[0])
+    # print(request_data[-1])
+    # print(request_data[-2])
+    # if request_data[0] == 0x5B:
+    #     print('t')
+
+    # s = b'\x42\x4d\x38\x8c\x0a\x00\x00\x00\x00\x00\x36\x00\x00\x00\x28\x00\x00\x00\x80\x02\x00\x00\x68\x01\x00\x00\x01\x00\x18\x00'
+    # *str_data, a, b = struct.unpack('<20B2f', s[2:])
+    # print(''.join(['%02X'%item for item in str_data]))
+    # str_data = ''.join([str(item) for item in str_data])
+    # print(str_data, a, b)
+    # ver = 0
+    #
+    # version_all = '11.3'
+    # print(version_all.split(','))
+    #
+    # if str(ver) != version_all.split(',')[0] and ver != 0:
+    #     print('s')
+    #
+    # print('PRODUCECONTROL_MODIFYCONFIGRATIO_REQ'.lower())
 
 
+    # 时间格式化
+    time_minute = 188
+    format_time = '%d:%02d' % (int(time_minute / 60), time_minute % 60)
+    print(format_time)
 
 
+    # 解析
+    data = b'C\xc5\xe33'
+    print(struct.pack('!f', 377.7749))
 
-
-
-
-
-
-
-
-
-
+    main_version = struct.unpack('!f', data)
+    print(main_version)
 
 
 
