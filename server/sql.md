@@ -76,6 +76,11 @@
 	>- 非空约束（not null）
 		>>- 修改表添加非空约束：alter table user change column name name varchar(21) not NULL;
 		>>- 删除非空约束：alter table user change column name name varchar(21) NULL;
+	>- 级联类型 (InnoDB)
+		>>- CASCADE : 从父表中删除或更新对应行，同时自动删除或更新自表中匹配的行 ON (DELETE|UPDATE) CASCADE
+		>>- SET NULL : 从父表删除或更新对应行，同时将自表对应的外键更新为NULL 列不能含有非空约束 ON (DELETE|UPDATE) SET NULL
+		>>- NO ACTION : innodb 拒绝删除更新父表
+		>>- RESTRICT : 同（NO ACTION）
 8. MYSQL 内置函数使用
 	>- 时间
 		>>- datediff : 计算时间差，DATEDIFF(expr1,expr2) 只能计算相差天数
