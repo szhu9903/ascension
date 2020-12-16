@@ -92,6 +92,8 @@
 		>>- 正则表达式 regexp
 		>>- 从一张表复制数据到另一张表 insert into user2(fname,fage,fphone) select name,age,phone from user1
 		>>- 快速删除表中数据 truncate table;
+	>- 错误定义
+	    >>- signal sqlstate 'HY000' set message_text = 'exeption message' (使用在触发器对数据进行业务校验)
 9. MYSQL 高级
 	>- sql视图
 		>>- 创建视图 create view 视图名称 as select 语句；
