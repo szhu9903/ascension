@@ -13,7 +13,7 @@
 	创建数据库防止重名报错：create database if not exists db_name
 	>- 删除数据库 : drop database db_name
 	>- 跳转到数据库 ： use db_name
-4. 常用数据表操作：
+4. 常用数据类型：
 	>- 浮点数类型：float(单精度浮点数） double(双精度浮点数)  decimal(10，0)
 	>- 时间类型：year、time、date、datetime、timestamp(时区)
 	>- 字符串类型：char(m：固定长度字符串)  varchar(m:固定长度不满足是 自动删除空格)  text(文章评论 非二进制)
@@ -41,7 +41,15 @@
     >- 添加列：alter table <表名> add <列名><数据类型>[约束]；（默认添加最后）
     	alter table user add new_l int(4) first;(添加到开始位置)  
     	alter table user add new_l int(4) after name; (添加到指定列之后)  
-7. 约束
+    >- 数据库内置数据库
+    	>>- information_schema：  
+    		TABLESb表：存放所有mysql数据表信息，可根据数据库名筛选，包含数据列数、数据表数据空间、索引空间等
+7. 数据表数据操作
+	>- 删除表中数据
+		>>- 删除表中所有数据 ： truncate table table_name(删除所有、立即释放磁盘空间、不支持数据回滚、删除速度快);
+		>>- 删除部分数据 ： delete from table_name where column=... (按条件删除数据、不会立即释放磁盘空间、可回滚)  
+			delete后释放空间 ： optimize table table_name(释放磁盘空间);
+8. 约束
 	>- 主键约束（primary key）  
 		>>- 定义字段时创建主键索引：（ID int(4) primary key）,
 	 	>>- 定义完所有字段时：（constraint primary key id）
@@ -81,7 +89,7 @@
 		>>- SET NULL : 从父表删除或更新对应行，同时将自表对应的外键更新为NULL 列不能含有非空约束 ON (DELETE|UPDATE) SET NULL
 		>>- NO ACTION : innodb 拒绝删除更新父表
 		>>- RESTRICT : 同（NO ACTION）
-8. MYSQL 内置函数使用
+9. MYSQL 内置函数使用
 	>- 时间
 		>>- datediff : 计算时间差，DATEDIFF(expr1,expr2) 只能计算相差天数
 		>>- timestampdiff : 计算时间差，TIMESTAMPDIFF(unit,小的时间,大的时间),可指定计算时差单位 天（DAY）小时（HOUR）分钟（MINUTE）秒（SECODE）
@@ -94,7 +102,7 @@
 		>>- 快速删除表中数据 truncate table;
 	>- 错误定义
 	    >>- signal sqlstate 'HY000' set message_text = 'exeption message' (使用在触发器对数据进行业务校验)
-9. MYSQL 高级
+10. MYSQL 高级
 	>- sql视图
 		>>- 创建视图 create view 视图名称 as select 语句；
 		>>- 删除视图 drop view 视图名称；
@@ -147,3 +155,5 @@
 			// delimiter;  
 		>>- 调用函数
 			call procedure_name('15994092160')
+
+
