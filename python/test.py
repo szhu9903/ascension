@@ -2,7 +2,7 @@
 import struct
 import math
 import logging
-
+import datetime
 
 # 添加日志设置等级，
 logger = logging.getLogger('logName')
@@ -25,9 +25,14 @@ def numInteraction(num1, num2, res=[]):
 
 
 if __name__ == '__main__':
-    num1 = [1, 6, 5, 3, 2, 2]
-    num2 = [7, 8, 5, 5, 6, 9, 9, 4, 2]
-    print(numInteraction(num1, num2))
+    now_date = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+    date_list = now_date.split('-')
+    msg_body_date = struct.pack('!H', int(date_list[0])) + \
+                    struct.pack('!5B', int(date_list[1]), int(date_list[2]),
+                                int(date_list[3]), int(date_list[4]), int(date_list[5]))
+    print(msg_body_date)
+
+
     # request_data = b'[GET / HTTP/1.1\r\nHost: localhost:9000\r\nConnection: keep-alive\r\nCache-Control: max-age=0\r\nUpgrade-Insecure-Requests: 1\r\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\nSec-Fetch-Site: none\r\nSec-Fetch-Mode: navigate\r\nSec-Fetch-User: ?1\r\nSec-Fetch-Dest: document\r\nAccept-Encoding: gzip, deflate, br\r\nAccept-Language: zh-CN,zh;q=0.9,en;q=0.8\r\n\r\n'
     # print(request_data[0])
     # print(request_data[-1])
