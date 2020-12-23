@@ -159,5 +159,9 @@
 			// delimiter;  
 		>>- 调用函数
 			call procedure_name('15994092160')
+11. 查询记录
+	>- 分组查询每组最新一条数据
+		>>- limit 1000000:在临时表内部排序时用limit字段固定排序， 然后在临时表外分组就可以改变group by默认排序（id）的问题
+		>>- select * from (select * from SCO_Bill ORDER BY scob_idletime desc limit 1000000) d GROUP BY d.scob_vehicleid ;
 
 
