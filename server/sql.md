@@ -104,7 +104,7 @@
 		>>- 正则表达式 regexp
 		>>- 从一张表复制数据到另一张表 insert into user2(fname,fage,fphone) select name,age,phone from user1
 		>>- 快速删除表中数据 truncate table;
-		>>- 分组查询列汇总[ GROUP_CONCAT] select adid,GROUP_CONCAT(vb_no) from Vehicle_Base_VQ GROUP BY adid
+		>>- 分组查询列汇总 select GROUP_CONCAT（查询的字段 separator ‘；’） from table group by 列字段;
 	>- 错误定义
 	    >>- signal sqlstate 'HY000' set message_text = 'exeption message' (使用在触发器对数据进行业务校验)
 10. MYSQL 高级
