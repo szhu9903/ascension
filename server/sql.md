@@ -164,5 +164,8 @@
 	>- 分组查询每组最新一条数据
 		>>- limit 1000000:在临时表内部排序时用limit字段固定排序， 然后在临时表外分组就可以改变group by默认排序（id）的问题
 		>>- select * from (select * from SCO_Bill ORDER BY scob_idletime desc limit 1000000) d GROUP BY d.scob_vehicleid ;
-
-
+	>- 数据每组生成编号
+		>>- @r 临时变量初始化0之后adid同组的每条+1  
+			@r 初始化分组标志，赋值分组标志
+		>>- select @r:=case when @adid=a.adid then @r+1 else 1 end as fid, a.*, @adid:=a.adid as l_adid
+			from Vehicle_Queue_V a,(SELECT @r:=0,@adid:=0) b 
