@@ -105,6 +105,9 @@
 		>>- 从一张表复制数据到另一张表 insert into user2(fname,fage,fphone) select name,age,phone from user1
 		>>- 快速删除表中数据 truncate table;
 		>>- 分组查询列汇总 select GROUP_CONCAT（查询的字段 separator ‘；’） from table group by 列字段;
+		>>- 获取查询数据的长度 select length(name) from user  
+		>>- 字符串替换 select REPLACE(str, from_str, to_str)  
+		>>- 字符串切片 select SUBSTRING_INDEX(str, delim, count) 
 	>- 错误定义
 	    >>- signal sqlstate 'HY000' set message_text = 'exeption message' (使用在触发器对数据进行业务校验)
 10. MYSQL 高级
@@ -167,5 +170,21 @@
 	>- 数据每组生成编号
 		>>- @r 临时变量初始化0之后adid同组的每条+1  
 			@r 初始化分组标志，赋值分组标志
-		>>- select @r:=case when @adid=a.adid then @r+1 else 1 end as fid, a.*, @adid:=a.adid as l_adid
-			from Vehicle_Queue_V a,(SELECT @r:=0,@adid:=0) b 
+		>>- select @r:=case when @adid=a.adid then @r+1 else 1 end as fid, a.\*, @adid:=a.adid as l_adid
+			from Vehicle_Queue_V a,(SELECT @r:=0,@adid:=0) b   
+	>- 查询数据按照逗号拆分后，一行转多行   
+		>>- 获取要拆分字符串包含的逗号数量   
+			select length(queuedata)-length(replace(queuedata, ',', '')) from Vehicle_Queue
+		>>- SUBSTRING_INDEX(SUBSTRING_INDEX(a.vq_queuedata, ',', help_topic_id+1), ',', -1)  
+			累加拆分然后获取追后一个元素 即对应的元素 ,例： 180, 110, 120  
+			180 --> 180  
+			180,110 --> 110
+			180,110,120 --> 120
+		>>- 语句示例
+			select 
+				a.vq_producestationid,
+				SUBSTRING_INDEX(SUBSTRING_INDEX(a.vq_queuedata, ',', help_topic_id+1), ',', -1)
+			from Vehicle_Queue a
+			JOIN mysql.help_topic b on b.help_topic_id < (LENGTH(a.vq_queuedata) - LENGTH(REPLACE(a.vq_queuedata, ',', ''))+1)
+
+
