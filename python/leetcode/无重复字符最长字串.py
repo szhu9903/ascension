@@ -22,6 +22,7 @@
 示例 4:
 
 """
+# 滑动窗口算法szhu
 def lengthOfLongestSubstring(s):
     if len(s) <= 0:return 0
     max_str = ''
@@ -33,9 +34,31 @@ def lengthOfLongestSubstring(s):
         if max_len < len(max_str):max_len=len(max_str)
     return max_len
 
+# 滑动窗口算法 标准版
+def lengthOfLongestSubstring1(s):
+    """
+    双指针组成滑动窗口
+    """
+    if len(s) <= 0:return 0
+    left = 0 # 左指针位置,右指针利用循环指针
+    num_data = set()
+    max_len = 0
+    cur_len = 0
+    for i in range(len(s)):
+        cur_len += 1
+        # 当前元素存在窗口中，左指针移动到重复位置
+        while s[i] in num_data:
+            num_data.remove(s[left])
+            # 做指针右滑动
+            left += 1
+            # 记录数量递减
+            cur_len -= 1
+        if cur_len > max_len:max_len = cur_len
+        num_data.add(s[i])
+    return max_len
 
 if __name__ == '__main__':
-    res = lengthOfLongestSubstring(' nnnko')
+    res = lengthOfLongestSubstring1(' nnnko')
     print(res)
 
 
