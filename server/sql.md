@@ -45,6 +45,9 @@
     	>>- information_schema：  
     		TABLESb表：存放所有mysql数据表信息，可根据数据库名筛选，包含数据列数、数据表数据空间、索引空间等
     		EVENTS表：存放MySQL的事件（定时任务）
+    		COLUMNS表：查询数据库列名：  
+    			select TABLE_NAME,GROUP_CONCAT(COLUMN_NAME SEPARATOR ',') from information_schema.COLUMNS
+    			where TABLE_SCHEMA='erpdb' group by TABLE_NAME
 7. 数据表数据操作
 	>- 删除表中数据
 		>>- 删除表中所有数据 ： truncate table table_name(删除所有、立即释放磁盘空间、不支持数据回滚、删除速度快);
@@ -96,7 +99,7 @@
 		>>- datediff : 计算时间差，DATEDIFF(expr1,expr2) 只能计算相差天数
 		>>- timestampdiff : 计算时间差，TIMESTAMPDIFF(unit,小的时间,大的时间),可指定计算时差单位 天（DAY）小时（HOUR）分钟（MINUTE）秒（SECODE）
 		>>- date_add(date:合法的日期表达式, interval 添加的时间间隔 type:时、分、秒) : date_add('2018-06-26',INTERVAL '5' day)
-		>>- date_add(date:合法的日期表达式, interval 添加的时间间隔 type:时、分、秒) : 减掉一段时间
+		>>- date_sub(date:合法的日期表达式, interval 添加的时间间隔 type:时、分、秒) : 减掉一段时间
 	>- 查询
 		>>- 去重查询 distinct 
 		>>- 区分大小写 binary   distinct binary
