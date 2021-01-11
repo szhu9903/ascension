@@ -189,5 +189,9 @@
 				SUBSTRING_INDEX(SUBSTRING_INDEX(a.vq_queuedata, ',', help_topic_id+1), ',', -1)
 			from Vehicle_Queue a
 			JOIN mysql.help_topic b on b.help_topic_id < (LENGTH(a.vq_queuedata) - LENGTH(REPLACE(a.vq_queuedata, ',', ''))+1)
-
+12. 问题处理
+	>- 创建触发器语句较长时,数据库错误：Lost connection to MySQL server during query
+		原因： 实际问题是因为导入的文件大小大于mysql默认的数据包限制大小4M
+		查看：show variables like '%max_allowed_packet%'
+		解决：打开my.ini配置文件，设置：max_allowed_packet = 500M 重启
 
