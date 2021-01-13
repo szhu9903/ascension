@@ -194,4 +194,7 @@
 		原因： 实际问题是因为导入的文件大小大于mysql默认的数据包限制大小4M
 		查看：show variables like '%max_allowed_packet%'
 		解决：打开my.ini配置文件，设置：max_allowed_packet = 500M 重启
-
+	>- 重启web服务时，数据库错误：1040, 'Too many connections'
+		原因：MySql的最大连接数量，先检查是否为程序重启未释放数据库连接
+		查看：show variables like '%max_connections%';
+		解决：打开my.ini配置文件，设置：max_connections = 800 
