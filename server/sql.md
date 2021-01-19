@@ -166,6 +166,15 @@
 			// delimiter;  
 		>>- 调用函数
 			call procedure_name('15994092160')
+		>>- 创建定时任务
+			DROP EVENT if EXISTS day_delup;  
+			CREATE EVENT day_delup  
+			ON SCHEDULE EVERY 1 DAY STARTS DATE_ADD(DATE_ADD(CURDATE(),INTERVAL 1 DAY), INTERVAL 2 HOUR)  
+			ON COMPLETION PRESERVE   
+			COMMENT '上行del' DO  
+			BEGIN  
+				delete from UpStream_Message WHERE data_stamp<=DATE_SUB(CURDATE(), INTERVAL 60 DAY);  
+			END;  
 11. 查询记录
 	>- 分组查询每组最新一条数据
 		>>- limit 1000000:在临时表内部排序时用limit字段固定排序， 然后在临时表外分组就可以改变group by默认排序（id）的问题
@@ -189,6 +198,30 @@
 				SUBSTRING_INDEX(SUBSTRING_INDEX(a.vq_queuedata, ',', help_topic_id+1), ',', -1)
 			from Vehicle_Queue a
 			JOIN mysql.help_topic b on b.help_topic_id < (LENGTH(a.vq_queuedata) - LENGTH(REPLACE(a.vq_queuedata, ',', ''))+1)
+	>- 分组查询数据 组转列
+		>>- 例如根据饭补申请数据表统计每月汇总信息 字段： 用户、时间、饭补类型(早、中、晚)、金额  
+			效果转换————>用户、时间、早count、中count、晚count、总金额
+		>>- SQL语句示例
+			select 
+				a.ds_signuserid, -- 用户
+				a.group_date, -- 日期
+				SUM(a.ds_fee) as ds_fee, -- 总金额
+				SUM(CASE WHEN a.ds_riceitem='BREAKFAST' THEN a.ds_count ELSE 0 END) as ds_breakfast, -- 统计早餐条件，其他为0
+				SUM(CASE WHEN a.ds_riceitem='LUNCK' THEN a.ds_count ELSE 0 END) as ds_lunck, -- 统计午餐条件，其他为0
+				SUM(CASE WHEN a.ds_riceitem='DINNER' THEN a.ds_count ELSE 0 END) as ds_dinner -- 统计晚餐条件，其他为0
+			FROM
+			(
+			-- 按月分组所有类型次数，详细分组	
+			select 
+				ds_signuserid,
+				DATE_FORMAT(ds_signdatetime, '%Y-%m') as group_date,
+				ds_riceitem,
+				sum(ds_fee) as ds_fee,
+				count(\*) as ds_count
+			from Driver_Subrice 
+			GROUP BY ds_signuserid, DATE_FORMAT(ds_signdatetime,'%Y%m'),ds_riceitem) a
+			GROUP BY ds_signuserid, group_date
+
 12. 问题处理
 	>- 创建触发器语句较长时,数据库错误：Lost connection to MySQL server during query
 		原因： 实际问题是因为导入的文件大小大于mysql默认的数据包限制大小4M
