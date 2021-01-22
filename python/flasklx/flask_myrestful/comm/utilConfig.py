@@ -1,4 +1,5 @@
 import logging
+from comm import tableModule
 
 # 初始化日志
 applog = logging.getLogger('app')
@@ -20,10 +21,17 @@ request_result = {
         'extparam': None,
         'data': None
     },
-    'ack_info': {
+    'ack_result': {
         'status': 'OK',
         'info': 'OK',
         'data': None
     }
+}
+
+
+
+table_config = {
+    'zsjblog': tableModule.tableModule('zsj_blog'),
+    'zsjblogtype': tableModule.tableModule('zsj_blog_type'),
 }
 

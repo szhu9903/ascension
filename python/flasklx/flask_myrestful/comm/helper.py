@@ -1,4 +1,5 @@
 import json
+import datetime
 import logging
 from decimal import Decimal
 from comm import db
@@ -10,13 +11,15 @@ class JSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, Decimal):
             return float(o)
+        if isinstance(o, (datetime.datetime, datetime.date)):
+            return o.strftime('%Y-%m-%d')
         super(JSONEncoder, self).default(o)
 
 
 # 执行SQl,获取结果集
 def get_db_data(query_sql):
     res_data = None
-    db_connection = db.get_normal_connect
+    db_connection = db.get_normal_connect()
     cursor = db_connection.cursor()
     try:
         cursor.execute(query_sql)
