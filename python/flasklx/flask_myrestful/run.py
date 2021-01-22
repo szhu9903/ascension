@@ -16,12 +16,16 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '5a8rGdvaf6f8g5d3787^Ml_d161'
 app.json_encoder = helper.JSONEncoder
 
+@app.errorhandler(404)
+def error_handle(error):
+    return 'ERROR', 404
+
 def init_app(application):
     application.config['DEBUG'] = True
     application.config['PERMANENT_SESSION_LIFETIME'] = timedelta
     # 注册蓝图
-    from api.overTimeController import over
-    application.register_blueprint(over, url_prefix='/api/1.0/over')
+    from api.requestController import main
+    application.register_blueprint(main, url_prefix='/api/1.0/main')
 
 if __name__ == '__main__':
     logger.info('start webserver ...')
