@@ -107,6 +107,8 @@
 		>>- 正则表达式 regexp
 		>>- 从一张表复制数据到另一张表 insert into user2(fname,fage,fphone) select name,age,phone from user1
 		>>- 快速删除表中数据 truncate table;
+		>>- 字段拼接 concat(str1, str2)
+		>>- 指定分隔符字段拼接 CONCAT_WS(separator,str1,str2,...)
 		>>- 分组查询列汇总 select GROUP_CONCAT（查询的字段 separator ‘；’） from table group by 列字段;
 		>>- 获取查询数据的长度 select length(name) from user  
 		>>- 字符串替换 select REPLACE(str, from_str, to_str)  
