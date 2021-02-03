@@ -52,9 +52,30 @@ class generalController(object):
         filter_str = g.para_data.get('filter')
         filter_sql = ''
         if filter_str:
-            # TODO 过滤条件待完善
-            pass
+            filter_list = filter_str.replace('|', ') and (')
+            filter_sql = 'where (%s)' % filter_list.replace('$', ' or ')
+            print(filter_str)
         return filter_sql
+
+    # 获取排序语句
+    def get_order_sql(self):
+        order_str = g.para_data.get('order')
+        order_sql = ''
+        if order_str:
+            order_sql = 'ORDER BY %s' % order_str.replace('|', ',')
+        return order_sql
+
+    # 获取分页数据
+    def get_limit_sql(self):
+        limit_str = g.para_data.get('limit')
+        limit_sql = ''
+        if limit_str:
+            # 分页数，page:页码；pagesize:每页数据量
+            page, page_size = limit_str.split(',')
+            page_size = 1 if int(page_size) <= 1 else int(page_size)
+            page = 0 if int(page) <= 1 else (int(page) - 1) * page_size
+            limit_sql = 'limit %d, %d' % (page,page_size)
+        return limit_sql
 
     # 获取记录数
     def get_data_count(self):
@@ -67,7 +88,11 @@ class generalController(object):
     # 获取查询语句
     def get_query_default_sql(self):
         # TODO 默认查询，待完善条件、排序、分页等条件拼接
-        query_sql = self.module.sql_query_default
+        default_query_sql = self.module.sql_query_default
+        filter_sql = self.get_filter_sql()
+        order_sql = self.get_order_sql()
+        limit_sql = self.get_limit_sql()
+        query_sql = '%s %s %s %s' % (default_query_sql, filter_sql, order_sql, limit_sql)
         return query_sql
     # GET 核心处理:获取数据
     def service_deal_get_sys(self):

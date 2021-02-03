@@ -29,9 +29,9 @@ request_result = {
 }
 
 
-
 table_config = {
     'zsjblog': tableModule.tableModule('zsj_blog'),
     'zsjblogtype': tableModule.tableModule('zsj_blog_type'),
+    'zsjbloguser': tableModule.tableModule('zsj_blog_user')
 }
 

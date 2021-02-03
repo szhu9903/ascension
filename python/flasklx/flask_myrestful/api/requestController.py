@@ -15,6 +15,7 @@ logger = logging.getLogger('app')
 genral_config = {
     'zsjblog' : generalController(utilConfig.table_config['zsjblog']),
     'zsjblogtype' : generalController(utilConfig.table_config['zsjblogtype']),
+    'zsjbloguser' : generalController(utilConfig.table_config['zsjbloguser'])
 }
 
 # 统一GET处理
@@ -71,7 +72,7 @@ def genral_put(config_name, record_id):
     logger.info('res data[%s]:(result=%s, info=%s)' % (request.path, result['ack_result']['status'], result['ack_result']['info']))
     return jsonify(result)
 
-# 统一POST处理
+# 统一DELETE处理
 @main.route('/<string:config_name>/<int:record_id>/', methods=['DELETE'])
 def genral_delete(config_name, record_id):
     try:

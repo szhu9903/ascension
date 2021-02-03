@@ -22,10 +22,10 @@ def error_handle(error):
 
 def init_app(application):
     application.config['DEBUG'] = True
-    application.config['PERMANENT_SESSION_LIFETIME'] = timedelta
+    application.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
     # 注册蓝图
     from api.requestController import main
-    application.register_blueprint(main, url_prefix='/api/1.0/main')
+    application.register_blueprint(main, url_prefix='/api/zsj/main')
 
 if __name__ == '__main__':
     logger.info('start webserver ...')
