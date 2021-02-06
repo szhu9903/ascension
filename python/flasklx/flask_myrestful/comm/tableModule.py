@@ -41,3 +41,29 @@ class tableModule(object):
         cursor.close()
         db.resume_normal_connect(db_connection)
         return colname_list, coltype_list
+
+    # 获取insert语句
+    def sql_insert_form_data(self, data):
+        data_unit = data
+        new_col_list = data_unit.keys()
+        # new_col_list = [col for col in self.colnames if col in data_unit.keys()]
+        colnamestr = '`' + '`,`'.join(new_col_list) + '`'
+        colvalstr = '"%(' + ')s","%('.join(new_col_list) + ')s"'
+        sql_insert = "insert into %s (%s) values(%s)" % (self.tablename, colnamestr, colvalstr)
+        return sql_insert
+
+    # 获取update语句
+    def sql_update_from_data(self, data, recid):
+        print(data)
+        col_list = data.keys()
+        new_col_list = []
+        for col_name in col_list:
+            new_col_list.append('%s="%%(%s)s"' % (col_name, col_name))
+        sql_update = "update %s set %s WHERE zid=%s " % (self.tablename, ','.join(new_col_list), recid)
+        return sql_update
+
+    # 获取delete语句
+    def sql_delete_form_data(self, recid):
+        sql_delete = '%s where zid=%s' % (self.sql_delete_default, recid)
+        return sql_delete
+
