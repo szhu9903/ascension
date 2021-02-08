@@ -1,16 +1,7 @@
-import logging
+
 from comm import tableModule
 
-# 初始化日志
-applog = logging.getLogger('app')
-applog.setLevel(logging.DEBUG)
-
-appHandle = logging.StreamHandler()
-appFormatter = logging.Formatter("[%(asctime)s] %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S")
-appHandle.setLevel(logging.DEBUG)
-appHandle.setFormatter(appFormatter)
-
-applog.addHandler(appHandle)
+from datetime import timedelta
 
 
 # 初始化JSON标准结构

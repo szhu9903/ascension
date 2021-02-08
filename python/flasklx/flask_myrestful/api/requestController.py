@@ -1,14 +1,13 @@
 
 import logging
 import json
+from . import main
 from flask import jsonify
 from flask import request
 from flask import Blueprint
 from comm import utilConfig
 
 from comm.generalController import generalController
-
-main = Blueprint('main', __name__)
 
 logger = logging.getLogger('app')
 
