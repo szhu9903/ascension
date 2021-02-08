@@ -3,7 +3,7 @@ import struct
 import math
 import logging
 import datetime
-
+import re
 
 # 添加日志设置等级，
 logger = logging.getLogger('logName')
@@ -75,6 +75,12 @@ if __name__ == '__main__':
     #                 struct.pack('!5B', int(date_list[1]), int(date_list[2]),
     #                             int(date_list[3]), int(date_list[4]), int(date_list[5]))
     # print(msg_body_date)
+
+
+
+    print(datetime.datetime.now().date())
+    print(datetime.datetime.now().strftime('%Y-%m-%d'))
+
 
     a = '请12001号车进入1号生产线,18000号车准备'
     b = a.encode('GB2312') + bytes([0])
