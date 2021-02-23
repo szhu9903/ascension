@@ -75,19 +75,31 @@ if __name__ == '__main__':
     #                 struct.pack('!5B', int(date_list[1]), int(date_list[2]),
     #                             int(date_list[3]), int(date_list[4]), int(date_list[5]))
     # print(msg_body_date)
+    file_name = 'VehicleMainCtrl_05.0.bin'
+    print(file_name.replace('.bin', ''))
+
+    import math
+    # 向上取整
+    print(math.ceil(513/512))
 
 
-
-    print(datetime.datetime.now().date())
-    print(datetime.datetime.now().strftime('%Y-%m-%d'))
-
-
-    a = '请12001号车进入1号生产线,18000号车准备'
-    b = a.encode('GB2312') + bytes([0])
+    import re
+    # 替换adid的值
+    st = 'a=3|adid=9666|rlc_type="CLIENT"|s=5'
+    b = re.sub(r"adid=(.*?)\|","adid=%s|"%str(2),st)
     print(b)
 
-    res = lengthOfLongestSubstring(' nnnko')
-    print(res)
+
+    # print(datetime.datetime.now().date())
+    # print(datetime.datetime.now().strftime('%Y-%m-%d'))
+    #
+    #
+    # a = '请12001号车进入1号生产线,18000号车准备'
+    # b = a.encode('GB2312') + bytes([0])
+    # print(b)
+    #
+    # res = lengthOfLongestSubstring(' nnnko')
+    # print(res)
 
     # # 时间格式化
     # time_minute = 307
