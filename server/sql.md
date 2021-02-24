@@ -114,6 +114,7 @@
 		>>- 字符串替换 select REPLACE(str, from_str, to_str)  
 		>>- 字符串切片 select SUBSTRING_INDEX(str, delim, count) 
 		>>- 分组数据添加汇总行 with rollup : select name,sum(number) from table1 group by name with rollup;
+		>>- 类型转换 CAST(expr AS type):signed:整数;unsigned:无符号整数;char():字符型;decimal:浮点数
 	>- 错误定义
 	    >>- signal sqlstate 'HY000' set message_text = 'exeption message' (使用在触发器对数据进行业务校验)
 10. MYSQL 高级
