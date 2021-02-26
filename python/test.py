@@ -1,4 +1,4 @@
-
+import os
 import struct
 import math
 import logging
@@ -79,9 +79,14 @@ if __name__ == '__main__':
     print(file_name.replace('.bin', ''))
 
     import math
+    import struct
     # 向上取整
     print(math.ceil(513/512))
 
+    a =512
+
+    print(struct.pack('!H',a))
+    print(len(struct.pack('!H',a)))
 
     import re
     # 替换adid的值
