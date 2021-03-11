@@ -1,5 +1,11 @@
+# 继承Protocol定义协议,在协议中可以  定义  连接、数据接收、断开连接等事件响应，
+# 对于所有连接上来的连接的协议的建立、持久数据不会保存在协议中。
 from twisted.internet.protocol import Protocol
+# 持久化数据保存在工厂里，继承Factory定义工厂，
+# 实例化每个协议，并且通过设置每个协议中factory属性来使协议可以使用到它自己，
+# 做这个设置的作用就是让协议在进行处理连接数据时可以使用到工厂中存储的持久配置数据
 from twisted.internet.protocol import Factory
+# 工厂的启动是需要reactor真实的建立侦听并启动才可以实现的
 from twisted.internet import reactor
 import logging
 import struct
