@@ -1,4 +1,6 @@
 from python import logger
+from tkinter import filedialog
+import tkinter as tk
 import paramiko
 import time
 
@@ -59,19 +61,53 @@ class sshScript():
 
 
 if __name__ == '__main__':
-    ssh_conn = sshScript('47.**.**.**', 'user', '**********')
-    ssh_conn.connect()
-    try:
-        # 发送命令
-        result = ssh_conn.send('docker images')
-        print(result)
-        # 上传文件, 本地文件路径，要上传到的位置
-        up_result = ssh_conn.up_file(r"E:/channel_v3.json", '/home/up_test.json')
-        if up_result:
-            # 检验上传结果
-            ssh_conn.send('cd /home')
-            res_ls = ssh_conn.send('ll')
-            print(res_ls)
-    except Exception as Err:
-        logger.error('失败%s' % Err)
-    ssh_conn.close()
+    file = ''
+    def get_path():
+        file = filedialog.askopenfilename()
+        path.set(file)
+
+    def send_file():
+        try:
+            # 获取地址
+            file_path = path.get()
+            ssh_path = res.get()
+            # 连接
+            ssh_conn = sshScript('47.**.**.**', 'ssh_user', '**********')
+            ssh_conn.connect()
+            # 上传
+            up_result = ssh_conn.up_file(file_path, ssh_path)
+            if up_result:
+                res.set('SUCCESS')
+        except Exception as Err:
+            logger.error('失败%s' % Err)
+        ssh_conn.close()
+
+
+    root = tk.Tk()
+    path = tk.StringVar()
+    res = tk.StringVar()
+
+    tk.Button(root, text = '选择路径', command = get_path).grid(row = 0, column = 0)
+    tk.Entry(root, textvariable = path).grid(row = 0, column = 1)
+    tk.Label(root, text='远程路径').grid(row=1, column=0)
+    tk.Entry(root, textvariable = res).grid(row=1, column=1)
+    tk.Button(root, text = '上传', command = send_file).grid(row = 2, column = 0)
+
+    root.mainloop()
+
+    # ssh_conn = sshScript('47.**.**.**', 'user', '**********')
+    # ssh_conn.connect()
+    # try:
+    #     # 发送命令
+    #     result = ssh_conn.send('docker images')
+    #     print(result)
+    #     # 上传文件, 本地文件路径，要上传到的位置
+    #     up_result = ssh_conn.up_file(r"E:/channel_v3.json", '/home/up_test.json')
+    #     if up_result:
+    #         # 检验上传结果
+    #         ssh_conn.send('cd /home')
+    #         res_ls = ssh_conn.send('ll')
+    #         print(res_ls)
+    # except Exception as Err:
+    #     logger.error('失败%s' % Err)
+    # ssh_conn.close()
