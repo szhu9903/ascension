@@ -1,11 +1,13 @@
 import logging
 import flask_login
-from . import user
 from comm import utilConfig
 from comm.userBase import userBase
 from flask import jsonify
 from flask import request
 from resource import login_message
+from flask import Blueprint
+
+user = Blueprint('user', __name__)
 
 logger = logging.getLogger('app')
 

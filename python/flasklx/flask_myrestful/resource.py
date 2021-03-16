@@ -41,5 +41,5 @@ def init_app(application):
     # 注册蓝图
     from api.requestController import main
     application.register_blueprint(main, url_prefix = '/api/zsj/main')
-    from api import user
+    from api.userController import user
     application.register_blueprint(user, url_prefix = '/api/zsj/user')
