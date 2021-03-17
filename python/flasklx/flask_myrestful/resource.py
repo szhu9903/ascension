@@ -7,39 +7,41 @@ appHandle.setLevel(logging.DEBUG)
 appHandle.setFormatter(logging.Formatter("[%(asctime)s] %(levelname)s %(message)s", "%Y-%m-%d %H:%M:%S"))
 applog.addHandler(appHandle)
 
-
-import sys
-env = sys.argv[1]
-if env == 'local':
-    from config.dev_config import *
-elif env == 'run':
-    from config.run_config import *
-
-
-from comm import helper
-from datetime import timedelta
+import os
 from flask import Flask
-from flask_login import LoginManager
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = SECRET_KEY
-app.json_encoder = helper.JSONEncoder
-
-login_message = LoginManager()
-# login_message.login_view = 'index'
-login_message.session_protection = 'strong'
-login_message.init_app(app)
+from config.base_config import config
+from comm import helper
+from comm.db import register_db_helper
+from comm.extensions import login_message
 
 
-def init_app(application):
-    application.config['DEBUG'] = DEBUG
-    application.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
-    # 加载消息中间件
-    from comm import requestExtend
+def create_app(config_name='dev'):
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])    # 获取配置文件
+    app.json_encode = helper.JSONEncoder    # 加载辅助日志及JSON设置
+    register_db_helper(config[config_name].db_conf)    # 初始化数据库链接池
+    register_extensions_helper(app)    # 加载扩展
+    register_blueprint_helper(app)    # 加载蓝图及中间件
+    register_error_helper(app)
 
-    # 注册蓝图
+    return app
+
+# 加载扩展
+def register_extensions_helper(app):
+    login_message.init_app(app)
+
+# 加载中间件、蓝图
+def register_blueprint_helper(app):
+    from comm.middles import middle
+    middle(app)
     from api.requestController import main
-    application.register_blueprint(main, url_prefix = '/api/zsj/main')
+    app.register_blueprint(main, url_prefix = '/api/zsj/main')
     from api.userController import user
-    application.register_blueprint(user, url_prefix = '/api/zsj/user')
+    app.register_blueprint(user, url_prefix = '/api/zsj/user')
+
+# 错误视图处理
+def register_error_helper(app):
+    @app.errorhandler(400)
+    def error_request(e):
+        return e, 400
