@@ -8,6 +8,7 @@ appHandle.setFormatter(logging.Formatter("[%(asctime)s] %(levelname)s %(message)
 applog.addHandler(appHandle)
 
 import os
+import click
 from flask import Flask
 from config.base_config import config
 from comm import helper
@@ -16,15 +17,17 @@ from comm.extensions import login_message
 
 
 
-def create_app(config_name='dev'):
+
+def create_app(config_name=None):
     app = Flask(__name__)
+    if not config_name:
+        config_name = os.getenv('FLASK_ENV', 'dev')
     app.config.from_object(config[config_name])    # 获取配置文件
-    app.json_encode = helper.JSONEncoder    # 加载辅助日志及JSON设置
+    app.json_encode = helper.JSONEncoder    # 加载辅助JSON数据处理
     register_db_helper(config[config_name].db_conf)    # 初始化数据库链接池
     register_extensions_helper(app)    # 加载扩展
     register_blueprint_helper(app)    # 加载蓝图及中间件
     register_error_helper(app)
-
     return app
 
 # 加载扩展
@@ -45,3 +48,4 @@ def register_error_helper(app):
     @app.errorhandler(400)
     def error_request(e):
         return e, 400
+
