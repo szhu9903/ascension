@@ -103,6 +103,7 @@
 	>- 查询
 		>>- 去重查询 distinct 
 		>>- 区分大小写 binary   distinct binary
+		>>- 大小写转换 lower(): 转小写 upper()：转大写。
 		>>- 过滤分组 select name,avg(num) from user group by name having avg(num)>5;  获取名称分组后 num平均值大于某数值
 		>>- 正则表达式 regexp
 		>>- 从一张表复制数据到另一张表 insert into user2(fname,fage,fphone) select name,age,phone from user1
