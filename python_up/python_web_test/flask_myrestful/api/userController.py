@@ -14,6 +14,7 @@ logger = logging.getLogger('app')
 @user.route('/login/', methods = ['POST'])
 def login():
     result = utilConfig.request_result
+    logger.info('login info %s' % result)
     try:
         user_info = request.json
         if not user_info.get('req_info'):
@@ -52,12 +53,25 @@ def login():
                                                            result['ack_result']['info']))
             return jsonify(result)
         flask_login.login_user(user)
+        result['ack_result']['data'] = '登录成功'
     except Exception as Err:
         result['ack_result']['status'] = 'ERR'
         result['ack_result']['info'] = '测试过程!'
         result['ack_result']['data'] = '测试过程!'
     return jsonify(result)
 
+@user.route('/logout/')
+def logout():
+    result = utilConfig.request_result
+    try:
+        flask_login.logout_user()
+        result['ack_result']['data'] = '退出登录成功'
+        result['req_info']['data'] = '退出登录成功'
+    except Exception as Err:
+        result['ack_result']['status'] = "ERR"
+        result['ack_result']['info'] = '退出失败'
+        result['ack_result']['data'] = '退出失败'
+    return jsonify(result)
 
 @login_message.user_loader
 def load_user(user_id):
