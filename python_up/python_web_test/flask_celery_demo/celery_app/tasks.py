@@ -1,5 +1,5 @@
 
-from celery_demo.celery_app import app
+from celery_app.celery_app import app
 import time
 
 @app.task
