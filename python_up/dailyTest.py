@@ -3,6 +3,7 @@ import struct
 import unittest
 import logging
 import re
+import threading
 
 # 添加日志设置等级，
 logger = logging.getLogger('logName')
@@ -15,6 +16,8 @@ loggerHandle.setLevel(logging.DEBUG)
 loggerHandle.setFormatter(loggerFormatter)
 # 将设置好的Handle添加进设置的日志中
 logger.addHandler(loggerHandle)
+
+thread_data = threading.local()
 
 
 class DailyTest(unittest.TestCase):
@@ -32,6 +35,8 @@ class DailyTest(unittest.TestCase):
         self.assertIsNotNone(b)
         print(b.group())
 
+    def test_local(self):
+        pass
 
     def get_bytes_str(self, data_str, split_num, data_list):
         if split_num <= 0:
