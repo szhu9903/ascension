@@ -21,8 +21,8 @@ class GenericProtocol(Protocol):
     def connectionMade(self):
         host = self.transport.getPeer().host
         port = self.transport.getPeer().port
-        type = self.transport.getPeer().type
-        connection_message = 'Client %s:%s %s' % (host, port, type)
+        req_type = self.transport.getPeer().type
+        connection_message = 'Client %s:%s %s' % (host, port, req_type)
         logger.info(connection_message)
         self.transport.write(connection_message.encode('utf-8'))
 
@@ -39,6 +39,7 @@ class GenericFactory(Factory):
     def buildProtocol(self, addr):
         newProtocol = GenericProtocol(self)
         return newProtocol
+
 
 if __name__ == '__main__':
     logger.info('Start Twisted service')
