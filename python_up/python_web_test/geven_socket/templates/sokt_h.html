@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket客户端</title>
+</head>
+<body>
+<script type="application/javascript">
+    window.onload = function () {
+        console.log("onload");
+        var ws = new WebSocket('ws://127.0.0.1:8005/wsmsg/conn/');
+        console.log(ws);
+
+        ws.onopen = function() {
+            console.log("connected to " + ws);
+        };
+
+        ws.onclose = function(e) {
+            console.log("connection closed (" + e.code + ")");
+        };
+
+        ws.onerror = function(e) {
+            console.log("connection errored");
+        };
+
+        ws.onmessage = function(e) {
+            $("#message").append('<p>' + e.data + '</p>');
+            console.log(JSON.parse(e.data));
+        };
+    };
+</script>
+<div id="message"></div>
+</body>
+</html>
