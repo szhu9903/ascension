@@ -1,5 +1,5 @@
 import logging
-import json
+import json, datetime, time
 from flask import Flask, request, render_template
 from geventwebsocket.handler import WebSocketHandler
 from gevent.pywsgi import WSGIServer
@@ -24,7 +24,7 @@ users = set()
 def index():
     return render_template('sokt_h.html')
 
-@app.route('/wsmsg/conn/')
+@app.route('/wsmsg/conn/1')
 def test_conn():
     # 获取Web Socket连接
     web_socket = request.environ.get("wsgi.websocket")
@@ -33,19 +33,18 @@ def test_conn():
     # 连接加入链接池中
     users.add(web_socket)
     while not web_socket.closed:
+        logger.info('现有用户%s' % len(users))
+        now_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         ws_message = web_socket.receive()
         if ws_message == 'exit': break
-        logger.info('现有用户%s' % len(users))
         for user in users:
             try:
-                user.send(ws_message)
+                user.send(now_date)
             except Exception as er:
                 print('用户断开')
     users.remove(web_socket)
     logger.info('close websocket(syncfunc)')
     return 'close websocket(syncfunc)'
-
-
 
 if __name__ == '__main__':
     logger = logging.getLogger('app')
