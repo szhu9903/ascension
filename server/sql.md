@@ -101,25 +101,26 @@
 		>>- date_add(date:合法的日期表达式, interval 添加的时间间隔 type:时、分、秒) : date_add('2018-06-26',INTERVAL '5' day)
 		>>- date_sub(date:合法的日期表达式, interval 添加的时间间隔 type:时、分、秒) : 减掉一段时间
 	>- 查询
-		>>- 去重查询 distinct 
-		>>- 区分大小写 binary   distinct binary
-		>>- 大小写转换 lower(): 转小写 upper()：转大写。
-		>>- 过滤分组 select name,avg(num) from user group by name having avg(num)>5;  获取名称分组后 num平均值大于某数值
-		>>- 正则表达式 regexp
-		>>- 从一张表复制数据到另一张表 insert into user2(fname,fage,fphone) select name,age,phone from user1
-		>>- 快速删除表中数据 truncate table;
-		>>- 字段拼接 concat(str1, str2)
-		>>- 指定分隔符字段拼接 CONCAT_WS(separator,str1,str2,...)
-		>>- 分组查询列汇总 select GROUP_CONCAT（查询的字段 separator ‘；’） from table group by 列字段;
-		>>- 获取查询数据的长度 select length(name) from user  
-		>>- 字符串替换 select REPLACE(str, from_str, to_str)  
-		>>- 字符串切片 select SUBSTRING_INDEX(str, delim, count) 
-		>>- 分组数据添加汇总行 with rollup : select name,sum(number) from table1 group by name with rollup;
-		>>- 类型转换 CAST(expr AS type):signed:整数;unsigned:无符号整数;char():字符型;decimal:浮点数  
-			类似类型转换函数 convert(value, type)
-		>>- 数字格式化操作：truncate(value,number):函数会将小数部分2位以后的值直接舍去  
-			ROUND(value,number):小数部分四舍五入
-			format(value,number):小数部分四舍五入，整数部分从右向左每3位一个逗号进行格式化输出。
+		>>- 去重查询 `distinct` 
+		>>- 区分大小写 `binary   distinct binary`
+		>>- 大小写转换 `lower()`: 转小写 `upper()`：转大写。
+		>>- 过滤分组 `select name,avg(num) from user group by name having avg(num)>5`;  获取名称分组后 num平均值大于某数值
+		>>- 正则表达式 `regexp`
+		>>- 从一张表复制数据到另一张表 `insert into user2(fname,fage,fphone) select name,age,phone from user1`
+		>>- 快速删除表中数据 `truncate table`;
+		>>- 字段拼接 `concat(str1, str2)`
+		>>- 指定分隔符字段拼接 `CONCAT_WS(separator,str1,str2,...)`
+		>>- 分组查询列汇总 `select GROUP_CONCAT（查询的字段 separator ‘；’） from table group by 列字段`;
+		>>- 获取查询数据的长度 `select length(name) from user`  
+		>>- 字符串替换 `select REPLACE(str, from_str, to_str)`  
+		>>- 字符串切片 `select SUBSTRING_INDEX(str, delim, count)` 
+		>>- 分组数据添加汇总行 with rollup : `select name,sum(number) from table1 group by name with rollup`;
+		>>- 类型转换 `CAST(expr AS type)`:`signed`:整数;`unsigned`:无符号整数;`char()`:字符型;`decimal`:浮点数  
+			类似类型转换函数 `convert(value, type)`
+		>>- 数字格式化操作：`truncate(value,number)`:函数会将小数部分2位以后的值直接舍去  
+			`ROUND(value,number)`:小数部分四舍五入
+			`format(value,number)`:小数部分四舍五入，整数部分从右向左每3位一个逗号进行格式化输出。
+		>>- 三元运算 `IF(a=b, 'YES', 'NO')`
 	>- 错误定义
 	    >>- signal sqlstate 'HY000' set message_text = 'exeption message' (使用在触发器对数据进行业务校验)
 10. MYSQL 高级
@@ -231,7 +232,7 @@
 			GROUP BY ds_signuserid, DATE_FORMAT(ds_signdatetime,'%Y%m'),ds_riceitem) a
 			GROUP BY ds_signuserid, group_date
 
-12. 问题处理
+12. 配置问题处理
 	>- 创建触发器语句较长时,数据库错误：Lost connection to MySQL server during query
 		原因： 实际问题是因为导入的文件大小大于mysql默认的数据包限制大小4M
 		查看：show variables like '%max_allowed_packet%'

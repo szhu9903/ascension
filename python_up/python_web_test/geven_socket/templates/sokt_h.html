@@ -48,6 +48,8 @@
     var szhu = createUser('szhu');
     szhu.fun();
 
+    //class 继承
+
 
 
 
@@ -99,5 +101,65 @@
     };
 </script>
 <div id="message"></div>
+<ol id="test-list">
+    <li class="lang">Scheme</li>
+    <li class="lang">JavaScript</li>
+    <li class="lang">Python</li>
+    <li class="lang">Ruby</li>
+    <li class="lang">Haskell</li>
+</ol>
+<script type="text/javascript">
+    var li_list = document.getElementById('test-list').children;
+    var arr = []; i = 0; j = 0;
+    for (; i<li_list.length; i++){
+        arr.push(li_list[i].innerText);
+    }
+    arr.sort();
+    for (; j<arr.length; j++){
+        li_list[j].innerText = arr[j];
+    }
+</script>
+
+<script type="text/javascript">
+    // g更急
+    var request;
+    if (window.XMLHttpRequest) {
+        request = new XMLHttpRequest();
+    }else {
+        request = new ActiveXObject('microsoft.XMLHTTP');
+    }
+    // 定义成功、失败方法
+    function success(text){
+        var li_list = document.getElementById('test-list');
+        var new_data = li_list.lastElementChild;
+        new_data.innerText = text;
+        li_list.appendChild(new_data);
+
+    }
+    function fail(code) {
+        var li_list = document.getElementById('test-list');
+        var new_data = li_list.lastElementChild;
+        new_data.innerText = code;
+        li_list.appendChild(new_data);
+    }
+    // 检测状态发生变化，回调函数
+    request.onreadystatechange = function () {
+        if (request.readyState === 4){
+            console.log(request);
+            if(request.status === 200){
+                success(request.responseText);
+            }else {
+                fail(request.status);
+            }
+        } else{
+            console.log('loading...');
+        }
+    };
+
+    request.open('GET','http://127.0.0.1:8005/api/v1.0/config/hardwareequip/');
+    request.send();
+
+
+</script>
 </body>
 </html>

@@ -37,6 +37,7 @@ class DailyTest(unittest.TestCase):
 
     def test_local(self):
         pass
+    
 
     def get_bytes_str(self, data_str, split_num, data_list):
         if split_num <= 0:
