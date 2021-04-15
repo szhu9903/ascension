@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form id="req-test" method="post" onsubmit="return checkReq()">
+        <input type="text" id="req-url">
+        <button type="submit">Send</button>
+    </form>
+
+    <div id="data"></div>
+
+    <form id="test-form" action="#0" onsubmit="return false;">
+        <p><label>Name: <input name="name"></label></p>
+        <p><label>Email: <input name="email"></label></p>
+        <p><label>Password: <input name="password" type="password"></label></p>
+        <p>Gender: <label><input name="gender" type="radio" value="m" checked> Male</label> <label><input name="gender" type="radio" value="f"> Female</label></p>
+        <p><label>City: <select name="city">
+            <option value="BJ" selected>Beijing</option>
+            <option value="SH">Shanghai</option>
+            <option value="CD">Chengdu</option>
+            <option value="XM">Xiamen</option>
+        </select></label></p>
+        <p><button type="submit">Submit</button></p></form>
+
+    <script type="text/javascript">
+        // 获取请求库
+        var request;
+        if (window.XMLHttpRequest) {
+            request = new XMLHttpRequest();
+        }else {
+            request = new ActiveXObject('microsoft.XMLHTTP');
+        }
+        //success or error
+        function res_success(res) {
+            var data_div, data_list, i;
+            data_div = document.getElementById('data');
+            data_div.innerHTML = "";
+            data_list = [res.status, res.responseURL, res.response];
+            for (i=0; i<data_list.length; i++) {
+                let data = document.createElement('p');
+                data.className = 'res';
+                data.innerText = data_list[i];
+                data_div.appendChild(data);
+            }
+        }
+        function res_error(code) {
+            data_div = document.getElementById('data');
+            data_div.innerHTML = "";
+            var data = document.createElement('p');
+            data.className = 'res';
+            data.innerText = code;
+            data_div.appendChild(data);
+        }
+
+        // 请求回调
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    res_success(request);
+                    console.log('success')
+                } else {
+                    res_error(request.status);
+                }
+            } else {
+                console.log('loading...');
+            }
+        };
+        function checkReq() {
+            // 发送请求
+            var req_url = document.getElementById("req-url").value;
+            request.open('GET', req_url);
+            request.send();
+            return false;
+        }
+    </script>
+
+    <script type="text/javascript">
+       var temp = {};
+       var form_data = $('#test-form input,select');
+       form_data.map(function (){
+        if (this.type!='radio'){
+            temp[this.name] = this.value;    
+        }else{
+            if(this.checked){
+                temp[this.name] = this.value;
+            }
+        }
+        
+       });
+       var res = JSON.stringify(temp);
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
