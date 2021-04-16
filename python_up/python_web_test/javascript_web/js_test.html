@@ -9,27 +9,23 @@
     <title>Document</title>
 </head>
 <body>
-    <form id="req-test" method="post" onsubmit="return checkReq()">
+    <input type="button" name="btn" value="显示测试ajax-demo" onclick="show_div()">
+    <form id="req-test" method="post" onsubmit="return checkReq()" style="display: none;">
         <input type="text" id="req-url">
         <button type="submit">Send</button>
     </form>
-
     <div id="data"></div>
-
-    <form id="test-form" action="#0" onsubmit="return false;">
-        <p><label>Name: <input name="name"></label></p>
-        <p><label>Email: <input name="email"></label></p>
-        <p><label>Password: <input name="password" type="password"></label></p>
-        <p>Gender: <label><input name="gender" type="radio" value="m" checked> Male</label> <label><input name="gender" type="radio" value="f"> Female</label></p>
-        <p><label>City: <select name="city">
-            <option value="BJ" selected>Beijing</option>
-            <option value="SH">Shanghai</option>
-            <option value="CD">Chengdu</option>
-            <option value="XM">Xiamen</option>
-        </select></label></p>
-        <p><button type="submit">Submit</button></p></form>
-
+    <!-- 原生AJAX请求 -->
     <script type="text/javascript">
+        function show_div() {
+            var show_flag = $('#req-test').css('display');
+            if (show_flag == 'none'){
+                $('#req-test').css('display','block');
+            }else{
+                $('#req-test').css('display','none');
+            }
+        }
+
         // 获取请求库
         var request;
         if (window.XMLHttpRequest) {
@@ -81,6 +77,20 @@
         }
     </script>
 
+    <!-- 读取表单数据，组合为JSON数据 -->
+    <form id="test-form" action="#0" onsubmit="return false;">
+        <p><label>Name: <input name="name"></label></p>
+        <p><label>Email: <input name="email"></label></p>
+        <p><label>Password: <input name="password" type="password"></label></p>
+        <p>Gender: <label><input name="gender" type="radio" value="m" checked> Male</label> <label><input name="gender" type="radio" value="f"> Female</label></p>
+        <p><label>City: <select name="city">
+            <option value="BJ" selected>Beijing</option>
+            <option value="SH">Shanghai</option>
+            <option value="CD">Chengdu</option>
+            <option value="XM">Xiamen</option>
+        </select></label></p>
+        <p><button type="submit">Submit</button></p>
+    </form>
     <script type="text/javascript">
        var temp = {};
        var form_data = $('#test-form input,select');
@@ -96,6 +106,108 @@
        });
        var res = JSON.stringify(temp);
     </script>
+
+    <!-- 增加元素，排序 -->
+    <div id="test-div">
+        <ul>
+            <li><span>JavaScript</span></li>
+            <li><span>Python</span></li>
+            <li><span>Swift</span></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        var ul = $('#test-div>ul');
+        ul.append('<li><span>Pascal</span></li>');
+        ul.append('<li><span>Lua</span></li>');
+        ul.append('<li><span>Ruby</span></li>');
+        var li = ul.find('li');
+        li.sort((x, y) => {
+            return x.innerText.toUpperCase() > y.innerText.toUpperCase() ? 1 : -1;
+        });
+        ul.append(li);
+ 
+    </script>
+    <!-- 多选框，全选批量demo -->
+    <form id="test-form1" action="test">
+        <legend>请选择想要学习的编程语言：</legend>
+        <fieldset>
+            <p>
+                <label class="selectAll">
+                    <input type="checkbox"> 
+                    <span class="selectAll">全选</span>
+                    <span class="deselectAll">全不选</span>
+                </label> 
+                <a href="#0" class="invertSelect">反选</a>
+            </p>
+            <p><label><input type="checkbox" name="lang" value="javascript"> JavaScript</label></p>
+            <p><label><input type="checkbox" name="lang" value="python"> Python</label></p>
+            <p><label><input type="checkbox" name="lang" value="ruby"> Ruby</label></p>
+            <p><label><input type="checkbox" name="lang" value="haskell"> Haskell</label></p>
+            <p><label><input type="checkbox" name="lang" value="scheme"> Scheme</label></p>
+            <p><button type="submit">Submit</button></p>
+        </fieldset>
+    </form>
+    <script type="text/javascript">
+        /*
+        $('document').ready(function(){
+            alert('document');
+        }) */
+        var
+            form = $('#test-form1'),
+            langs = form.find('[name=lang]'),
+            selectAll = form.find('label.selectAll :checkbox'),
+            selectAllLabel = form.find('label.selectAll span.selectAll'),
+            deselectAllLabel = form.find('label.selectAll span.deselectAll'),
+            invertSelect = form.find('a.invertSelect');
+
+        // 重置初始化状态:
+        form.find('*').show().off();
+        form.find(':checkbox').prop('checked', false).off();
+        deselectAllLabel.hide();
+        // 拦截form提交事件:
+        form.off().submit(function (e) {
+            e.preventDefault();
+            alert(form.serialize());
+        });
+
+        //全选全部选字体切换
+        function selectallshow(flag){
+            if (flag){
+                selectAllLabel.show();
+                deselectAllLabel.hide();
+            } else {
+                selectAllLabel.hide();
+                deselectAllLabel.show();
+            }
+        }
+
+        selectAll.click(function(){
+            langs.prop('checked',this.checked);
+            selectallshow(this.checked);
+        })
+        // 反选
+        invertSelect.click(function(){
+            langs.map(function(){
+                $(this).prop('checked', !this.checked);
+            })
+        })
+        // 检查全选
+        langs.change(function(){
+            var count = 0;
+            var flag = false;
+            langs.each(function(){
+                if (this.checked){
+                    count++;
+                }
+            });
+            if(count === langs.length){
+                flag = true
+            }
+            selectAll.prop('checked',flag);
+            selectallshow(flag);     
+        })
+    </script>
+
 
 </body>
 </html>

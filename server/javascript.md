@@ -43,16 +43,30 @@
     新元素添加属性: `li.class`、`li.style`、`li.innerText`、`li.innerHTML替换`  
     appendChild、removeChild: 添加删除元素
 ### . AJAX
-* 加载库：
-        `var request;
-        if (window.XMLHttpRequest) {
-            request = new XMLHttpRequest();
-        }else {
-            request = new ActiveXObject('microsoft.XMLHTTP');
-        }`
+* 加载库: `request = new XMLHttpRequest();` or   
+`request = new ActiveXObject('microsoft.XMLHTTP');`
+* 通过定义回调函数，检测响应，处理响应 [aj_demo](https://github.com/szhu9903/ascension/blob/master/python_up/python_web_test/javascript_web/js_test.html)
 ### . JQuery
 * 层级选择器：层级下边所有p$('div p')来选择，层级之间用空格隔开。
 * 子选择器$('parent>child')：类似层级选择器，但是限定了层级关系必须是父子关系，就是<child>节点必须是<parent>节点的直属子节点。
 * 过滤器(Filter)： 配合层级选择元素的筛选  $('parent>child：last')
-
-
+* 函数过滤器(map): jquery.map(function(){}) 例如：[aj_demo](https://github.com/szhu9903/ascension/blob/master/python_up/python_web_test/javascript_web/js_test.html)
+* DOM操作: `css`添加样式  `addClass`、 添加class属性、`hide()、show()`隐藏显示元素；`attr()、removeAttr()`操作DOM节点的属性
+### . 事件
+* 鼠标事件  
+`click`: 鼠标单击时触发；  
+`dblcheck`：鼠标双击时触发；  
+`mouseenter`：鼠标进入时触发；  
+`mouseleave`：鼠标移出时触发；  
+`mousemove`：鼠标在DOM内部移动时触发；  
+`hover`：鼠标进入和退出时触发两个函数，相当于mouseenter加上mouseleave。
+* 键盘事件:键盘事件仅作用在当前焦点的DOM上通常是`<input>`和`<textarea>`    
+`keydown`：键盘按下时触发  
+`keyup`：键盘松开时触发  
+`keypress`：按一次键后触发。  
+* 其他事件
+`focus`：当DOM获得焦点时触发；
+`blur`：当DOM失去焦点时触发；
+`change`：当`<input>、<select>或<textarea>`的内容改变时触发；
+`submit`：当`<form>`提交时触发；
+`ready`：当页面被载入并且DOM树完成初始化后触发
