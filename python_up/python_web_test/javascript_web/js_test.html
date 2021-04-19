@@ -8,24 +8,41 @@
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
     <title>Document</title>
 </head>
+<style>
+    .red    {background: #fa5a5a;}
+    .yellow {background: #f0d264;}
+    .green  {background: #82c8a0;}
+    .cyan   {background: #7fccde;}
+    .blue   {background: #6698cb;}
+    .purple {background: #cb99c5;}
+    .show-demo{
+        color: white;
+        margin-right: 12px;
+        padding: 5px 25px;
+        display: inline-block;
+        border: 1px solid rgba(0,0,0,0.21);
+        border-bottom-color: rgba(0,0,0,0.34);
+        text-shadow:0 1px 0 rgba(0,0,0,0.15);
+        box-shadow: 0 1px 0 rgba(255,255,255,0.34) inset,
+                          0 2px 0 -1px rgba(0,0,0,0.13),
+                          0 3px 0 -1px rgba(0,0,0,0.08),
+                          0 3px 13px -1px rgba(0,0,0,0.21);
+    }
+</style>
 <body>
-    <input type="button" name="btn" value="显示测试ajax-demo" onclick="show_div()">
+    <div id="btn-div" class="div-btn">
+        <input type="button" class="show-demo red" value="ajax-demo" onclick="show_div('req-test')">
+        <input type="button" class="show-demo yellow" value="JSON Demo" onclick="show_div('test-form')">
+        <input type="button" class="show-demo green" value="add sort Demo" onclick="show_div('test-div')">
+        <input type="button" class="show-demo cyan" value="all checkbox Demo" onclick="show_div('test-form1')">
+    </div>
+
     <form id="req-test" method="post" onsubmit="return checkReq()" style="display: none;">
         <input type="text" id="req-url">
         <button type="submit">Send</button>
     </form>
-    <div id="data"></div>
     <!-- 原生AJAX请求 -->
     <script type="text/javascript">
-        function show_div() {
-            var show_flag = $('#req-test').css('display');
-            if (show_flag == 'none'){
-                $('#req-test').css('display','block');
-            }else{
-                $('#req-test').css('display','none');
-            }
-        }
-
         // 获取请求库
         var request;
         if (window.XMLHttpRequest) {
@@ -78,7 +95,7 @@
     </script>
 
     <!-- 读取表单数据，组合为JSON数据 -->
-    <form id="test-form" action="#0" onsubmit="return false;">
+    <form id="test-form" action="#0" onsubmit="return false;" style="display: none;">
         <p><label>Name: <input name="name"></label></p>
         <p><label>Email: <input name="email"></label></p>
         <p><label>Password: <input name="password" type="password"></label></p>
@@ -108,7 +125,7 @@
     </script>
 
     <!-- 增加元素，排序 -->
-    <div id="test-div">
+    <div id="test-div" style="display: none">
         <ul>
             <li><span>JavaScript</span></li>
             <li><span>Python</span></li>
@@ -125,10 +142,10 @@
             return x.innerText.toUpperCase() > y.innerText.toUpperCase() ? 1 : -1;
         });
         ul.append(li);
- 
     </script>
+
     <!-- 多选框，全选批量demo -->
-    <form id="test-form1" action="test">
+    <form id="test-form1" action="test" style="display: none">
         <legend>请选择想要学习的编程语言：</legend>
         <fieldset>
             <p>
@@ -206,6 +223,19 @@
             selectAll.prop('checked',flag);
             selectallshow(flag);     
         })
+    </script>
+
+
+    <script type="text/javascript">
+        function show_div(demo_id) {
+            var show_id = '#'+demo_id;
+            var show_flag = $(show_id).css('display');
+            if (show_flag == 'none'){
+                $(show_id).css('display','block');
+            }else{
+                $(show_id).css('display','none');
+            }
+        }
     </script>
 
 

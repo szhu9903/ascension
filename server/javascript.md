@@ -70,3 +70,5 @@
 `change`：当`<input>、<select>或<textarea>`的内容改变时触发；
 `submit`：当`<form>`提交时触发；
 `ready`：当页面被载入并且DOM树完成初始化后触发
+### . 错误处理
+* `try{...}catch(e){...}finally{...}`: 错误捕获处理！

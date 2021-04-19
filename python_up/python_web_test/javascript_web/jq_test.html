@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+</head>
+<body>
+	<input type="text" id="req-url">
+	<input type="button" value="Send" onclick="return reqdata()">
+
+	<script>
+		var login_message = {
+		    "req_info":{
+				"data":{
+					"user_name": "zhanghong",
+					"user_password": "54321",
+					"terminal_type": "PC"
+				}
+			}
+		}
+		function reqdata(){
+			var req_url = $("#req-url").val();
+			$.ajax({
+				url:req_url,
+				type:"GET",
+				dataType:"json",
+				success:function(data){
+					console.log(data["ack_result"]["status"]);
+					if (data["ack_result"]["status"] === "OK") {
+						console.log(data);
+					}else {
+						login_flag = login();
+						console.log(login_flag)
+					}
+				}
+			})
+		}
+		// 登录
+		function login(){
+			var login_flag = "error";
+			$.ajax({
+				url: "http://127.0.0.1:8005/api/v1.0/commfunc/login/",
+				type: "POST",
+                contentType:"application/json",
+				dataType: "json",
+				async:false,
+				data: JSON.stringify(login_message),
+                success: function (data) {
+					if (data["ack_result"]["status"] === "OK") {
+						login_flag = "OK";
+					}
+                }
+			})
+			return login_flag;
+		}
+	</script>
+
+	<script>
+		var r1, r2, s = null;
+		try{
+			r1 = s.length();
+		}catch (e) {
+			console.log('出错：' + e);
+		}finally {
+			console.log('Finally!')
+		}
+	</script>
+
+</body>
+</html>
