@@ -12,8 +12,7 @@ layer = [
     MaxPooling2D(pool_size=(2, 2)),
 
     # 扁平化 在Lenet5中称为卷积，实际上这一层是一维向量，和全连接一样
-    Flatten(),
-    # 输出维度120
+    Flatten(),    # 输出维度120
     Dense(120, activation='relu'),
     # 全连接层 输出参数84个
     Dense(84, activation='relu'),
@@ -24,6 +23,6 @@ layer = [
 # 创建模型
 model = Sequential(layer)
 #保存模型
-model.save('test_model.h5')
+# model.save('test_model.h5')
 # 查看模型结构
 print(model.summary())
