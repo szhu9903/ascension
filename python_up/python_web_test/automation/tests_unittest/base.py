@@ -19,8 +19,8 @@ class BaseTestCase(unittest.TestCase):
 
     def login(self, user_name=None, user_pwd=None):
         if user_name is None and user_pwd is None:
-            user_name = 'admin'
-            user_pwd = 'admin'
+            user_name = '15994092160'
+            user_pwd = 'qq1017'
         self.req_data['req_info']['data'] = dict(user_name = user_name, user_pwd = user_pwd)
         url = 'http://%s/api/zsj/user/login/' % self.path_url
         response = requests.post(url,
