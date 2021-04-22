@@ -15,4 +15,4 @@
 * [flask实现通用数据库接口](https://github.com/szhu9903/ascension/tree/master/python_up/python_web_test/flask_myrestful)
 * [javascript等前端,一点点](https://github.com/szhu9903/ascension/tree/master/python_up/python_web_test/javascript_web)
 * [网络通讯编程(Twisted、email、ssh)](https://github.com/szhu9903/ascension/tree/master/python_up/python_web_test/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B)
-7. [笔记部分]()
+7. [笔记部分](https://github.com/szhu9903/ascension/tree/master/note)
