@@ -39,7 +39,8 @@ class DailyTest(unittest.TestCase):
         test_list = [3, 6, 9, 8, 5, 2, 1, 4, 7]
         test_list.sort()
         print(test_list)
-    
+
+
 
     def get_bytes_str(self, data_str, split_num, data_list):
         if split_num <= 0:
@@ -49,7 +50,6 @@ class DailyTest(unittest.TestCase):
             res = data_str[:res_index].decode('utf-8')
             data_list.append(res)
             return self.get_bytes_str(data_str[res_index + 1:], split_num-1, data_list)
-
 
 
 
